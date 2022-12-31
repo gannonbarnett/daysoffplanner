@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="header-div">
+  <ul class="header-ul">
+    <li class="header-li" style="width: 300px;font-weight:bold;">{{year}} Dumb
+      Time Off Planner</li>
+    <li class="header-li" style="float:right">
+      <div class="holidays-div">
+        <div onclick="toggleHolidayList()">Holidays</div>
+        <div id="holidays-content-div-id" class="holidays-content-div">
+          {% for name, i in holidays.items() %}
+          <div id=holiday-{{i}} class="holidays-button-div"
+            onclick=toggleHoliday({{i}})>{{name}}</div>
+          {% endfor %}
+        </div>
+      </div>
+    </li>
+    <li class="header-li" style="float:right">
+      <div id="input-div">
+        Starting balance:<input id="starting-balance" type="number" step="any"
+          value="0.0"
+          onchange="reloadGraph()"/>
+      </div>
+    </li>
+    <li class="header-li" style="float:right">
+      <div id="input-div">
+        Timeoff per 2w:<input id="timeoff-rate" type="number" step="any"
+          value="4.5"
+          onchange="reloadGraph()"/>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<div class="annual-div">
+  {% set vars = {'monthStartI': 0} %}
+  {% for name, monthEndI in months.items() %}
+  <div class="month-div">
+    <div class="month-name-div">{{ name }}</div>
+    <ol class="month-ol">
+
+      <li class="day-name">Sun</li>
+      <li class="day-name">Mon</li>
+      <li class="day-name">Tue</li>
+      <li class="day-name">Wed</li>
+      <li class="day-name">Thu</li>
+      <li class="day-name">Fri</li>
+      <li class="day-name">Sat</li>
+
+      <li class="day" id={{vars.monthStartI}} style="grid-column-start: {{
+        (vars.monthStartI + annualStartDay) % 7 + 1
+        }};" onclick="toggleDay({{vars.monthStartI}})">1</li>
+      {% for i in range(2, monthEndI - vars.monthStartI+ 1) %}
+      <li class="day" id={{vars.monthStartI+i-1}}
+        onclick="toggleDay({{vars.monthStartI+i-1}})">{{ i }}</li>
+      {% endfor %}
+    </ol>
+  </div>
+  {% if vars.update({'monthStartI': monthEndI }) %}{% endif %}
+  {% endfor %}
+</div>
+<div class="chart-div"><canvas id="chart"></canvas></div>
+<script>
+  // Load the graph on load 
+  reloadGraph()
+</script>
+{% endblock %}

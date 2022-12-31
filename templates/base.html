@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Time Off</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')
+      }}">
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/chart.js@4.1.1"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  </head>
+  <body>
+    <div class="container">
+      {% block content %}
+      {% endblock %}
+    </div>
+
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-analytics.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+    
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      const firebaseConfig = {
+        apiKey: "AIzaSyAOxa1tqQgoTPgswVW-7mTQBEfiYVrL2mI",
+        authDomain: "daysoffplanner.firebaseapp.com",
+        projectId: "daysoffplanner",
+        storageBucket: "daysoffplanner.appspot.com",
+        messagingSenderId: "999511004889",
+        appId: "1:999511004889:web:533ad93868fa48e97bd0c8",
+        measurementId: "G-MQ6LHSXX1Y"
+      };
+    
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+    </script>
+  </body>
+</html>
