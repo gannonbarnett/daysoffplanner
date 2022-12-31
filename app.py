@@ -18,12 +18,19 @@ months={
 }
 
 holidays={
-  "New Year's Day": 0,
-  "Jan 2": 1,
-  "MLK Day": 14,
-  "July 4th": 184,
-  "Labor Day": 243,
-  "Veteran's Day": 214,
+  "New Year's": 0,
+  "New Year's +1": 1,
+  "MLK Day": 15,
+  "Presidents' Day": 50,
+  "Memorial Day": 148,
+  "July 4th": 185,
+  "July 4th +1": 186,
+  "Labor Day": 246,
+  "Columbus Day": 281,
+  "Veterans Day": 303,
+  "Thanksgiving -1": 335,
+  "Thanksgiving Day": 336,
+  "Thanksgiving +1": 337,
   "Christmas Eve": 357,
   "Christmas": 358,
 }
