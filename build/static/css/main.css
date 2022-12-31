@@ -1,0 +1,128 @@
+body {
+  font: 100% system-ui;
+}
+
+h1 {
+  text-align: center;
+}
+
+.header-div {
+  overflow: hidden;
+  background-color: #f1f1f1;
+  padding: 20px 0px;
+}
+
+.header-ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.header-li {
+  float: left;
+  padding: 3px;
+  width: 200px;
+}
+
+.title {
+  height: 100%;
+  width: 100px;
+  font-size: large;
+}
+
+.input-div {
+  margin-left: 5px;
+  display: inline;
+  width: 100px;
+}
+
+.holidays-div {
+  background-color: lightblue;
+  margin-left: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+}
+
+.holidays-content-div {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  text-align: center;
+}
+
+.holidays-div:hover .holidays-content-div {
+  display: block;
+}
+
+.holidays-button-div {
+  cursor:pointer;
+  padding: 3px;
+}
+
+.holidays-button-selected {
+  background-color: lightblue;
+}
+
+.holiday {
+  background-color: lightblue;
+}
+
+.main-div {
+  overflow: auto;
+  white-space: nowrap;
+}
+
+.month-div {
+  font-size: medium;
+  max-width: 280px;
+  display: inline-block;
+}
+
+.month-ol {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.month-name-div {
+  font-size: large;
+  font-weight: bold;
+  text-align: center;
+  margin: 10px;
+}
+
+.first-day {
+  grid-column-start: 3;
+}
+
+.day-name {
+  background: #eee;
+}
+
+.day {
+  cursor: pointer;
+  padding: 2px;
+  border: 1px solid transparent;
+}
+.day:hover {
+  border: 1px solid #d0d0d0;
+}
+
+.time-off {
+  background: lightgreen;
+}
+
+.chart-div {
+  height: 400px;
+}
+canvas{
+}
