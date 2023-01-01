@@ -112,6 +112,8 @@ function getCookie(c_name) {
 
 const timeOffCookieKey = "timeOffDays";
 const holidaysCookieKey = "holidays";
+const timeOffRateCookieKey = "timeOffRate";
+const startingBalanceCookieKey = "startingBalance";
 
 let timeOffDays = [];
 
@@ -209,6 +211,8 @@ function reloadGraph() {
 
   createCookie(timeOffCookieKey, timeOffDays.join("|"))
   createCookie(holidaysCookieKey, holidays.join("|"))
+  createCookie(startingBalanceCookieKey, document.getElementById(startingBalanceId).valueAsNumber)
+  createCookie(timeOffRateCookieKey, document.getElementById(timeoffRateId).valueAsNumber)
 }
 
 function toggleHolidayList() {
@@ -237,6 +241,14 @@ function loadFromCookies() {
     }
     addHoliday(Number(holidaysFromCookie[i]))
   }
+
+  document.getElementById(startingBalanceId).value = Number(getCookie(startingBalanceCookieKey))
+  let timeOffRateFromCookie = Number(getCookie(timeOffRateCookieKey));
+  if (timeOffRateFromCookie == 0.0) {
+    timeOffRateFromCookie = 4.5 // Default rate is 4.5
+  }
+  document.getElementById(timeoffRateId).value = timeOffRateFromCookie 
+
   reloadGraph()
 }
 
