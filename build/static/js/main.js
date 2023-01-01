@@ -184,7 +184,7 @@ function reloadGraph() {
           legend:{display:false},
           title: {
             display: true, 
-            text: "Time Off Balance (days)",
+            text: "Days Off Balance",
             font: {
               size: 16,
               color: '#1c1e21',
