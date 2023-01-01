@@ -39,9 +39,7 @@ input {
 }
 
 .title {
-  height: 100%;
-  width: 100px;
-  font-size: large;
+  font-size: x-large;
 }
 
 .input-div {
@@ -105,7 +103,6 @@ input {
 
 .month-name-div {
   font-size: large;
-  font-weight: bold;
   text-align: center;
   margin: 5px;
 }
@@ -134,11 +131,12 @@ input {
 }
 
 .time-off {
-  background: #9DF3C4;
+  background: #52caff87;
 }
 
 .chart-div {
-  padding: 8px;
+  padding-left: 8px;
+  padding-right: 8px;
   height: 350px;
 }
 canvas{

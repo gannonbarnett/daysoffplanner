@@ -158,10 +158,12 @@ function reloadGraph() {
       data: {
         labels: labels,
         datasets: [{
-          fill: false,
+          fill: true,
           lineTension: 0,
-          backgroundColor: "rgba(0,0,255,1.0)",
-          borderColor: "rgba(0,0,255,0.1)",
+          pointBackgroundColor: "#55bae7",
+          pointBorderColor: "#55bae7",
+          pointHoverBackgroundColor: "#55bae7",
+          pointHoverBorderColor: "#55bae7",
           data: values}]
       },
       options: {
@@ -183,7 +185,8 @@ function reloadGraph() {
             text: "Time Off Balance (days)",
             font: {
               size: 16,
-              color: '#000',
+              color: '#1c1e21',
+              weight: 'normal',
             },
           }
         },
