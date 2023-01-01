@@ -1,15 +1,20 @@
 body {
   font: 100% system-ui;
+  margin: 10px;
 }
 
 h1 {
   text-align: center;
 }
 
+input {
+  width: 40px;
+}
+
 .header-div {
   overflow: hidden;
   background-color: #f1f1f1;
-  padding: 20px 0px;
+  padding: 3px;
 }
 
 .header-ul {
@@ -21,8 +26,8 @@ h1 {
 
 .header-li {
   float: left;
-  padding: 3px;
-  width: 200px;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .title {
@@ -32,19 +37,15 @@ h1 {
 }
 
 .input-div {
-  margin-left: 5px;
   display: inline;
   width: 100px;
 }
 
 .holidays-div {
   background-color: lightblue;
-  margin-left: 5px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  width: 100%;
   text-align: center;
   cursor: pointer;
+  width: 127px;
 }
 
 .holidays-content-div {
@@ -62,7 +63,6 @@ h1 {
 
 .holidays-button-div {
   cursor:pointer;
-  padding: 3px;
 }
 
 .holidays-button-selected {
@@ -97,7 +97,7 @@ h1 {
   font-size: large;
   font-weight: bold;
   text-align: center;
-  margin: 10px;
+  margin: 5px;
 }
 
 .first-day {
@@ -110,7 +110,7 @@ h1 {
 
 .day {
   cursor: pointer;
-  padding: 2px;
+  padding: 1px;
   border: 1px solid transparent;
 }
 .day:hover {
@@ -122,7 +122,7 @@ h1 {
 }
 
 .chart-div {
-  height: 400px;
+  height: 350px;
 }
 canvas{
 }

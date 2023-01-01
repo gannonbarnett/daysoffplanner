@@ -1,28 +1,3 @@
-const timeOffDays = [];
-const unit = 8.0;
-var months = [
-  {"name": "January","i":0},
-  {"name": "Febuary","i":31},
-  {"name": "March","i":59},
-  {"name": "April","i":90},
-  {"name": "May","i":120},
-  {"name": "June","i":151},
-  {"name": "July","i":181},
-  {"name": "August","i":212},
-  {"name": "September","i":243},
-  {"name": "October","i":273},
-  {"name": "November","i":304},
-  {"name": "December","i":334},
-]
-
-const mainChartId = "chart";
-var mainChart = null;
-
-const startingBalanceId = "starting-balance";
-
-const timeoffRateId = "timeoff-rate";
-
-var holidays = [];
 function toggleHoliday(i) {
   if (!removeHoliday(i)) {
     addHoliday(i)
@@ -82,13 +57,85 @@ function addHoliday(i) {
   return false
 }
 
+// Cookies
+function createCookie(name, value, days) {
+  var expires;
+  if (days) {
+      var date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      expires = "; expires=" + date.toGMTString();
+  }
+  else {
+      expires = "";
+  }
+  document.cookie = name + "=" + value + expires + "; path=/";
+}
+
+function getCookie(c_name) {
+  if (document.cookie.length > 0) {
+      c_start = document.cookie.indexOf(c_name + "=");
+      if (c_start != -1) {
+          c_start = c_start + c_name.length + 1;
+          c_end = document.cookie.indexOf(";", c_start);
+          if (c_end == -1) {
+              c_end = document.cookie.length;
+          }
+          return unescape(document.cookie.substring(c_start, c_end));
+      }
+  }
+  return "";
+}
+
+const timeOffCookieKey = "timeOffDays";
+const holidaysCookieKey = "holidays";
+
+let timeOffDays = [];
+let timeOffFromCookie = getCookie(timeOffCookieKey).split("|");
+if (typeof timeOffFromCookie != "object") {
+  timeOffFromCookie = [];
+  createCookie(timeOffCookieKey, timeOffCookie.join("|"))
+}
+for (i=0;i< timeOffFromCookie.length; i+=1){
+  addTimeoff(Number(timeOffFromCookie[i]))
+}
+
+// if (sessionStorage.getItem(holidaysCookie) == null ||
+//     sessionStorage.getItem(holidaysCookie) == undefined) {
+//   sessionStorage.setItem(holidaysCookie, [])
+// }
+// const holidays = sessionStorage.getItem(holidaysCookie)
+const holidays = [];
+
+const unit = 8.0;
+var months = [
+  {"name": "January","i":0},
+  {"name": "Febuary","i":31},
+  {"name": "March","i":59},
+  {"name": "April","i":90},
+  {"name": "May","i":120},
+  {"name": "June","i":151},
+  {"name": "July","i":181},
+  {"name": "August","i":212},
+  {"name": "September","i":243},
+  {"name": "October","i":273},
+  {"name": "November","i":304},
+  {"name": "December","i":334},
+]
+
+const mainChartId = "chart";
+var mainChart = null;
+
+const startingBalanceId = "starting-balance";
+
+const timeoffRateId = "timeoff-rate";
+
 function reloadGraph() {
   var max = 0;
   var min = 0;
 
   var labels = []
   var values = []
-  var balance = document.getElementById(startingBalanceId).valueAsNumber;
+  var balance = document.getElementById(startingBalanceId).valueAsNumber / 8.0;
   var timeoffRate = document.getElementById(timeoffRateId).valueAsNumber;
   
   var currMonthI = 0;
@@ -136,23 +183,37 @@ function reloadGraph() {
         maintainAspectRatio: false,
         animation: false,
         elements: {point:{radius: 2, hoverRadius: 4,}},
-        plugins: {legend:{display:false}},
+        scales: {
+          x: {
+            ticks: {major: {enabled: true}}
+          },
+          y: {
+          },
+        },
+        plugins: {
+          legend:{display:false},
+          title: {display: true, text: "Time Off Balance (days)"}
+        },
       },
     });
+  } else {
+    // Reset all the datapoints.
+    mainChart.data.datasets.forEach((dataset) => {
+      for (i=0;i<59;i+=1) {
+        dataset.data.pop();
+      }
+    });
+    mainChart.data.datasets.forEach((dataset) => {
+      for (i=0;i<59;i+=1) {
+        dataset.data.push(values[i]);
+      }
+    });
+    mainChart.update();
   }
 
-  // Reset all the datapoints.
-  mainChart.data.datasets.forEach((dataset) => {
-    for (i=0;i<59;i+=1) {
-      dataset.data.pop();
-    }
-  });
-  mainChart.data.datasets.forEach((dataset) => {
-    for (i=0;i<59;i+=1) {
-      dataset.data.push(values[i]);
-    }
-  });
-  mainChart.update();
+
+  createCookie(timeOffCookieKey, timeOffDays.join("|"))
+  createCookie(holidaysCookieKey, holidays.join("|"))
 }
 
 function toggleHolidayList() {

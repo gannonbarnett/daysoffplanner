@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Time Off</title>
+    <title>Days Off</title>
     <link rel="stylesheet" href="/static/css/main.css">
 
     <script
@@ -16,8 +16,8 @@
       
 <div class="header-div">
   <ul class="header-ul">
-    <li class="header-li" style="width: 300px;font-weight:bold;">2023 Dumb
-      Time Off Planner</li>
+    <li class="header-li" style="font-weight:bold;">2023
+      Days Off Planner</li>
     <li class="header-li" style="float:right">
       <div class="holidays-div">
         <div onclick="toggleHolidayList()">Holidays</div>
@@ -38,11 +38,11 @@
           <div id=holiday-148 class="holidays-button-div"
             onclick=toggleHoliday(148)>Memorial Day</div>
           
-          <div id=holiday-185 class="holidays-button-div"
-            onclick=toggleHoliday(185)>July 4th</div>
+          <div id=holiday-184 class="holidays-button-div"
+            onclick=toggleHoliday(184)>July 4th</div>
           
-          <div id=holiday-186 class="holidays-button-div"
-            onclick=toggleHoliday(186)>July 4th +1</div>
+          <div id=holiday-185 class="holidays-button-div"
+            onclick=toggleHoliday(185)>July 4th +1</div>
           
           <div id=holiday-246 class="holidays-button-div"
             onclick=toggleHoliday(246)>Labor Day</div>
@@ -50,17 +50,17 @@
           <div id=holiday-281 class="holidays-button-div"
             onclick=toggleHoliday(281)>Columbus Day</div>
           
-          <div id=holiday-303 class="holidays-button-div"
-            onclick=toggleHoliday(303)>Veterans Day</div>
+          <div id=holiday-313 class="holidays-button-div"
+            onclick=toggleHoliday(313)>Veterans Day</div>
           
-          <div id=holiday-335 class="holidays-button-div"
-            onclick=toggleHoliday(335)>Thanksgiving -1</div>
+          <div id=holiday-325 class="holidays-button-div"
+            onclick=toggleHoliday(325)>Thanksgiving -1</div>
           
-          <div id=holiday-336 class="holidays-button-div"
-            onclick=toggleHoliday(336)>Thanksgiving Day</div>
+          <div id=holiday-326 class="holidays-button-div"
+            onclick=toggleHoliday(326)>Thanksgiving Day</div>
           
-          <div id=holiday-337 class="holidays-button-div"
-            onclick=toggleHoliday(337)>Thanksgiving +1</div>
+          <div id=holiday-327 class="holidays-button-div"
+            onclick=toggleHoliday(327)>Thanksgiving +1</div>
           
           <div id=holiday-357 class="holidays-button-div"
             onclick=toggleHoliday(357)>Christmas Eve</div>
@@ -73,14 +73,16 @@
     </li>
     <li class="header-li" style="float:right">
       <div id="input-div">
-        Starting balance:<input id="starting-balance" type="number" step="any"
+        Starting Time Off (hrs): <input id="starting-balance" type="number"
+          step="any"
           value="0.0"
           onchange="reloadGraph()"/>
       </div>
     </li>
     <li class="header-li" style="float:right">
       <div id="input-div">
-        Timeoff per 2w:<input id="timeoff-rate" type="number" step="any"
+        Time Off per 2 Weeks (hrs): <input id="timeoff-rate" type="number"
+          step="any"
           value="4.5"
           onchange="reloadGraph()"/>
       </div>

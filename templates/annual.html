@@ -2,8 +2,8 @@
 {% block content %}
 <div class="header-div">
   <ul class="header-ul">
-    <li class="header-li" style="width: 300px;font-weight:bold;">{{year}} Dumb
-      Time Off Planner</li>
+    <li class="header-li" style="font-weight:bold;">{{year}}
+      Days Off Planner</li>
     <li class="header-li" style="float:right">
       <div class="holidays-div">
         <div onclick="toggleHolidayList()">Holidays</div>
@@ -17,14 +17,16 @@
     </li>
     <li class="header-li" style="float:right">
       <div id="input-div">
-        Starting balance:<input id="starting-balance" type="number" step="any"
+        Starting Time Off (hrs): <input id="starting-balance" type="number"
+          step="any"
           value="0.0"
           onchange="reloadGraph()"/>
       </div>
     </li>
     <li class="header-li" style="float:right">
       <div id="input-div">
-        Timeoff per 2w:<input id="timeoff-rate" type="number" step="any"
+        Time Off per 2 Weeks (hrs): <input id="timeoff-rate" type="number"
+          step="any"
           value="4.5"
           onchange="reloadGraph()"/>
       </div>
