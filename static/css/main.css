@@ -1,6 +1,9 @@
 body {
   font: 100% system-ui;
-  margin: 10px;
+  background-color: white;
+  color: #1c1e21;
+  cursor: default;
+  margin:0px;
 }
 
 h1 {
@@ -13,8 +16,13 @@ input {
 
 .header-div {
   overflow: hidden;
-  background-color: #f1f1f1;
-  padding: 3px;
+  background-color: white;
+  padding-top:15px;
+  padding-bottom: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 3px;
+  box-shadow: 0px 3px 4px 0px rgba(0,0,0,0.2);
 }
 
 .header-ul {
@@ -42,16 +50,18 @@ input {
 }
 
 .holidays-div {
-  background-color: lightblue;
+  background-color: #FFEEBB;
   text-align: center;
   cursor: pointer;
   width: 127px;
+  border-radius: 5px;
+  padding: 2px;
 }
 
 .holidays-content-div {
   display: none;
   position: absolute;
-  background-color: #f9f9f9;
+  background-color: white;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
   text-align: center;
@@ -66,11 +76,11 @@ input {
 }
 
 .holidays-button-selected {
-  background-color: lightblue;
+  background-color: #FFEEBB;
 }
 
 .holiday {
-  background-color: lightblue;
+  background-color: #FFEEBB;
 }
 
 .main-div {
@@ -105,7 +115,13 @@ input {
 }
 
 .day-name {
-  background: #eee;
+  background-color: #EFEFEF;
+  color:#1c1e21;
+  opacity: 0.8;
+}
+
+.annual-div {
+  padding: 8px;
 }
 
 .day {
@@ -118,10 +134,11 @@ input {
 }
 
 .time-off {
-  background: lightgreen;
+  background: #9DF3C4;
 }
 
 .chart-div {
+  padding: 8px;
   height: 350px;
 }
 canvas{
