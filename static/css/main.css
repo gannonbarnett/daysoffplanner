@@ -127,6 +127,11 @@ input {
   padding: 1px;
   border: 1px solid transparent;
 }
+
+.past {
+  opacity: 0.6;
+}
+
 .day:hover {
   border: 1px solid #d0d0d0;
 }

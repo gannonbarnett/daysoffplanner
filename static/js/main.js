@@ -1,5 +1,13 @@
-const holidays = [];
+function getTodayIndexOfYear() {
+  const today = new Date();
+  const start = new Date(today.getFullYear(), 0, 0);
+  const diff = today - start;
+  const oneDay = 1000 * 60 * 60 * 24;
+  return Math.floor(diff / oneDay);
+}
 
+const todayIndex = getTodayIndexOfYear();
+const holidays = [];
 const unit = 8.0;
 var months = [
   {"name": "January","i":0},
@@ -128,6 +136,9 @@ function reloadGraph() {
   
   var currMonthI = 0;
   for (i=0;i<365;i+=1) {
+    if (i <= todayIndex) {
+      continue
+    }
     if (i % 14 == 0) {
       balance += timeoffRate / unit
     }
@@ -178,6 +189,8 @@ function reloadGraph() {
             ticks: {major: {enabled: true}}
           },
           y: {
+            suggestedMin: 0,
+            suggestedMax: 5,
           },
         },
         plugins: {

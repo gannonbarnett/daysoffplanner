@@ -17,7 +17,7 @@
     </li>
     <li class="header-li" style="float:right">
       <div id="input-div">
-        Starting Time Off (hrs): <input id="starting-balance" type="number"
+        Time Off Balance Today (hrs): <input id="starting-balance" type="number"
           step="any"
           value="0.0"
           onchange="reloadGraph()"/>
@@ -49,12 +49,23 @@
       <li class="day-name">Fri</li>
       <li class="day-name">Sat</li>
 
+      {% if vars.monthStartI <todayIndex %}
+      <li class="day past" id={{vars.monthStartI}} style="grid-column-start: {{
+        (vars.monthStartI + annualStartDay) % 7 + 1
+        }};">1</li>
+      {% else %}
       <li class="day" id={{vars.monthStartI}} style="grid-column-start: {{
         (vars.monthStartI + annualStartDay) % 7 + 1
         }};" onclick="toggleDay({{vars.monthStartI}})">1</li>
+      {% endif %}
+
       {% for i in range(2, monthEndI - vars.monthStartI+ 1) %}
+      {% if vars.monthStartI + i - 1 <todayIndex %}
+      <li class="day past" id={{vars.monthStartI+i-1}}>{{ i }}</li>
+      {% else %}
       <li class="day" id={{vars.monthStartI+i-1}}
         onclick="toggleDay({{vars.monthStartI+i-1}})">{{ i }}</li>
+      {% endif %}
       {% endfor %}
     </ol>
   </div>

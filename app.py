@@ -1,4 +1,11 @@
 from flask import Flask, session, render_template
+from datetime import datetime, timedelta
+
+def get_today_index_of_year():
+    today = datetime.today()
+    start = datetime(today.year, 1, 1)
+    diff = today - start
+    return diff.days
 
 app = Flask(__name__)
 start_day_2022 = 0
@@ -42,7 +49,7 @@ def index():
     year=2023,
     months=months,
     holidays=holidays,
-    timeOff=[]) 
+    todayIndex=get_today_index_of_year()) 
 
 if __name__ == "__main__":
   app.run(debug=True,host='0.0.0.0',port=int(os.environ.get('PORT', 8080)))
