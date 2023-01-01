@@ -1,3 +1,27 @@
+const holidays = [];
+
+const unit = 8.0;
+var months = [
+  {"name": "January","i":0},
+  {"name": "Febuary","i":31},
+  {"name": "March","i":59},
+  {"name": "April","i":90},
+  {"name": "May","i":120},
+  {"name": "June","i":151},
+  {"name": "July","i":181},
+  {"name": "August","i":212},
+  {"name": "September","i":243},
+  {"name": "October","i":273},
+  {"name": "November","i":304},
+  {"name": "December","i":334},
+]
+
+const mainChartId = "chart";
+const startingBalanceId = "starting-balance";
+const timeoffRateId = "timeoff-rate";
+
+var mainChart = null;
+
 function toggleHoliday(i) {
   if (!removeHoliday(i)) {
     addHoliday(i)
@@ -90,44 +114,6 @@ const timeOffCookieKey = "timeOffDays";
 const holidaysCookieKey = "holidays";
 
 let timeOffDays = [];
-let timeOffFromCookie = getCookie(timeOffCookieKey).split("|");
-if (typeof timeOffFromCookie != "object") {
-  timeOffFromCookie = [];
-  createCookie(timeOffCookieKey, timeOffCookie.join("|"))
-}
-for (i=0;i< timeOffFromCookie.length; i+=1){
-  addTimeoff(Number(timeOffFromCookie[i]))
-}
-
-// if (sessionStorage.getItem(holidaysCookie) == null ||
-//     sessionStorage.getItem(holidaysCookie) == undefined) {
-//   sessionStorage.setItem(holidaysCookie, [])
-// }
-// const holidays = sessionStorage.getItem(holidaysCookie)
-const holidays = [];
-
-const unit = 8.0;
-var months = [
-  {"name": "January","i":0},
-  {"name": "Febuary","i":31},
-  {"name": "March","i":59},
-  {"name": "April","i":90},
-  {"name": "May","i":120},
-  {"name": "June","i":151},
-  {"name": "July","i":181},
-  {"name": "August","i":212},
-  {"name": "September","i":243},
-  {"name": "October","i":273},
-  {"name": "November","i":304},
-  {"name": "December","i":334},
-]
-
-const mainChartId = "chart";
-var mainChart = null;
-
-const startingBalanceId = "starting-balance";
-
-const timeoffRateId = "timeoff-rate";
 
 function reloadGraph() {
   var max = 0;
@@ -211,7 +197,6 @@ function reloadGraph() {
     mainChart.update();
   }
 
-
   createCookie(timeOffCookieKey, timeOffDays.join("|"))
   createCookie(holidaysCookieKey, holidays.join("|"))
 }
@@ -224,3 +209,25 @@ function toggleHolidayList() {
     div.style.display = "none" 
   }
 }
+
+
+function loadFromCookies() {
+  // Load from cookies.
+  let timeOffFromCookie = getCookie(timeOffCookieKey).split("|");
+  for (i=0;i< timeOffFromCookie.length; i+=1){
+    if (timeOffFromCookie[i] == '') {
+      continue
+    }
+    addTimeoff(Number(timeOffFromCookie[i]))
+  }
+  let holidaysFromCookie = getCookie(holidaysCookieKey).split("|");
+  for (i=0;i< holidaysFromCookie.length; i+=1){
+    if (holidaysFromCookie[i] == '') {
+      continue
+    }
+    addHoliday(Number(holidaysFromCookie[i]))
+  }
+  reloadGraph()
+}
+
+window.onload = loadFromCookies

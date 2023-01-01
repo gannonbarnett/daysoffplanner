@@ -34,7 +34,7 @@
   </ul>
 </div>
 
-<div class="annual-div">
+<div class="annual-div" onload="loadFromCookies()">
   {% set vars = {'monthStartI': 0} %}
   {% for name, monthEndI in months.items() %}
   <div class="month-div">
@@ -62,8 +62,4 @@
   {% endfor %}
 </div>
 <div class="chart-div"><canvas id="chart"></canvas></div>
-<script>
-  // Load the graph on load 
-  reloadGraph()
-</script>
 {% endblock %}
