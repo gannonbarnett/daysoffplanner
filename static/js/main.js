@@ -178,7 +178,14 @@ function reloadGraph() {
         },
         plugins: {
           legend:{display:false},
-          title: {display: true, text: "Time Off Balance (days)"}
+          title: {
+            display: true, 
+            text: "Time Off Balance (days)",
+            font: {
+              size: 16,
+              color: '#000',
+            },
+          }
         },
       },
     });
@@ -230,4 +237,5 @@ function loadFromCookies() {
   reloadGraph()
 }
 
+Chart.defaults.color = '#000';
 window.onload = loadFromCookies
