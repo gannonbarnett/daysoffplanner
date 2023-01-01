@@ -2,8 +2,9 @@
 ```
 python3.7 -m venv venv
 source venv/bin/activate
+pip install -r requirements.txt
 ```
-... might have to `pip install ...` a few things here
 
 # Deploy
-Use `deploy.sh`
+1. Stage changes
+2. `deploy.sh`
