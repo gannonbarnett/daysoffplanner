@@ -1,4 +1,11 @@
+html {
+  height: 100%;
+  width: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
 body {
+  height: 100%;
+  width: 100%;
   font: 100% system-ui;
   background-color: white;
   color: #1c1e21;
@@ -13,6 +20,13 @@ body {
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 
+.container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 h1 {
   text-align: center;
 }
@@ -22,7 +36,6 @@ input {
 }
 
 .header-div {
-  overflow: hidden;
   background-color: white;
   padding-top:13px;
   padding-bottom: 13px;
@@ -31,6 +44,15 @@ input {
   border-radius: 3px;
   box-shadow: 0px 3px 4px 0px rgba(0,0,0,0.2);
   align-items:center
+}
+
+.non-header-div {
+  -webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+  -moz-box-flex: 1; /* OLD - Firefox 19- */
+  -webkit-flex: 1; /* Chrome */
+  -ms-flex: 1; /* IE 10 */
+  flex: 1; /* NEW, */
+  overflow: auto;
 }
 
 .header-ul {
@@ -44,6 +66,9 @@ input {
   float: left;
   margin-left: 5px;
   margin-right: 5px;
+}
+
+.non-header-div {
 }
 
 .title {
@@ -126,6 +151,9 @@ input {
 }
 
 .annual-div {
+  height: 50%;
+  overflow-x: hidden;
+  overflow-y: auto;
   padding: 8px;
   text-align: center;
 }
@@ -149,9 +177,12 @@ input {
 }
 
 .chart-div {
+  height: 48%;
+  max-height: 340px;
   padding-left: 8px;
   padding-right: 8px;
-  height: 350px;
+
+  box-shadow: 0px -2px 4px 0px rgba(0,0,0,0.2);
 }
 canvas{
 }
