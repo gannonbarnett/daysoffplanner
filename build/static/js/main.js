@@ -268,4 +268,14 @@ function loadFromCookies() {
 }
 
 Chart.defaults.color = '#000';
-window.onload = loadFromCookies
+window.onload = loadFromCookies;
+console.log("")
+console.log("             -------------")
+console.log("             |   | x |   |")
+console.log("             -------------")
+console.log("             |   |   | x |")
+console.log("             -------------")
+console.log("             | x | x | x |")
+console.log("             -------------")
+console.log("      https://gannonbarnett.com/")
+console.log("")
