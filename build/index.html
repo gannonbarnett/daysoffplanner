@@ -1,0 +1,2093 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Days Off</title>
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="icon" href="/static/png/icon.png">
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/chart.js@4.1.1"></script>
+    <script src="/static/js/main.js"></script>
+    <script type="text/javascript"> var infolinks_pid = 3384269; var infolinks_wsid = 0; </script>
+    <script type="text/javascript"
+      src="//resources.infolinks.com/js/infolinks_main.js"></script>
+    <script async
+      src="https://www.googletagmanager.com/gtag/js?id=G-MQ6LHSXX1Y"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-MQ6LHSXX1Y');
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      
+<div class="header-div">
+  <ul class="header-ul">
+    <li class="header-li title">2023
+      Days Off Planner</li>
+    <li class="header-li" style="float:right">
+      <div class="holidays-div">
+        <div onclick="toggleHolidayList()">Holidays</div>
+        <div id="holidays-content-div-id" class="holidays-content-div">
+          
+          <div id=holiday-0 class="holidays-button-div"
+            onclick=toggleHoliday(0)>New Year&#39;s</div>
+          
+          <div id=holiday-1 class="holidays-button-div"
+            onclick=toggleHoliday(1)>New Year&#39;s +1</div>
+          
+          <div id=holiday-15 class="holidays-button-div"
+            onclick=toggleHoliday(15)>MLK Day</div>
+          
+          <div id=holiday-50 class="holidays-button-div"
+            onclick=toggleHoliday(50)>Presidents&#39; Day</div>
+          
+          <div id=holiday-148 class="holidays-button-div"
+            onclick=toggleHoliday(148)>Memorial Day</div>
+          
+          <div id=holiday-184 class="holidays-button-div"
+            onclick=toggleHoliday(184)>July 4th</div>
+          
+          <div id=holiday-185 class="holidays-button-div"
+            onclick=toggleHoliday(185)>July 4th +1</div>
+          
+          <div id=holiday-246 class="holidays-button-div"
+            onclick=toggleHoliday(246)>Labor Day</div>
+          
+          <div id=holiday-281 class="holidays-button-div"
+            onclick=toggleHoliday(281)>Columbus Day</div>
+          
+          <div id=holiday-313 class="holidays-button-div"
+            onclick=toggleHoliday(313)>Veterans Day</div>
+          
+          <div id=holiday-325 class="holidays-button-div"
+            onclick=toggleHoliday(325)>Thanksgiving -1</div>
+          
+          <div id=holiday-326 class="holidays-button-div"
+            onclick=toggleHoliday(326)>Thanksgiving Day</div>
+          
+          <div id=holiday-327 class="holidays-button-div"
+            onclick=toggleHoliday(327)>Thanksgiving +1</div>
+          
+          <div id=holiday-357 class="holidays-button-div"
+            onclick=toggleHoliday(357)>Christmas Eve</div>
+          
+          <div id=holiday-358 class="holidays-button-div"
+            onclick=toggleHoliday(358)>Christmas</div>
+          
+        </div>
+      </div>
+    </li>
+    <li class="header-li" style="float:right">
+      <div id="input-div">
+        Time Off Balance Today (hrs): <input id="starting-balance" type="number"
+          step="any"
+          value="0.0"
+          onchange="reloadGraph()"/>
+      </div>
+    </li>
+    <li class="header-li" style="float:right">
+      <div id="input-div">
+        Time Off per 2 Weeks (hrs): <input id="timeoff-rate" type="number"
+          step="any"
+          value="4.5"
+          onchange="reloadGraph()"/>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<div class="non-header-div">
+  <div class="annual-div" onload="loadFromCookies()">
+    
+    
+    <div class="month-div">
+      <div class="month-name-div">January</div>
+      <ol class="month-ol">
+
+        <li class="day-name">Sun</li>
+        <li class="day-name">Mon</li>
+        <li class="day-name">Tue</li>
+        <li class="day-name">Wed</li>
+        <li class="day-name">Thu</li>
+        <li class="day-name">Fri</li>
+        <li class="day-name">Sat</li>
+
+        
+        <li class="day past" id=0 style="grid-column-start:
+          1;">1</li>
+        
+
+        
+        
+        <li class="day past" id=1>2</li>
+        
+        
+        
+        <li class="day past" id=2>3</li>
+        
+        
+        
+        <li class="day past" id=3>4</li>
+        
+        
+        
+        <li class="day past" id=4>5</li>
+        
+        
+        
+        <li class="day past" id=5>6</li>
+        
+        
+        
+        <li class="day past" id=6>7</li>
+        
+        
+        
+        <li class="day past" id=7>8</li>
+        
+        
+        
+        <li class="day past" id=8>9</li>
+        
+        
+        
+        <li class="day past" id=9>10</li>
+        
+        
+        
+        <li class="day past" id=10>11</li>
+        
+        
+        
+        <li class="day past" id=11>12</li>
+        
+        
+        
+        <li class="day past" id=12>13</li>
+        
+        
+        
+        <li class="day past" id=13>14</li>
+        
+        
+        
+        <li class="day past" id=14>15</li>
+        
+        
+        
+        <li class="day past" id=15>16</li>
+        
+        
+        
+        <li class="day past" id=16>17</li>
+        
+        
+        
+        <li class="day past" id=17>18</li>
+        
+        
+        
+        <li class="day past" id=18>19</li>
+        
+        
+        
+        <li class="day past" id=19>20</li>
+        
+        
+        
+        <li class="day past" id=20>21</li>
+        
+        
+        
+        <li class="day past" id=21>22</li>
+        
+        
+        
+        <li class="day past" id=22>23</li>
+        
+        
+        
+        <li class="day past" id=23>24</li>
+        
+        
+        
+        <li class="day past" id=24>25</li>
+        
+        
+        
+        <li class="day past" id=25>26</li>
+        
+        
+        
+        <li class="day past" id=26>27</li>
+        
+        
+        
+        <li class="day past" id=27>28</li>
+        
+        
+        
+        <li class="day past" id=28>29</li>
+        
+        
+        
+        <li class="day past" id=29>30</li>
+        
+        
+        
+        <li class="day past" id=30>31</li>
+        
+        
+      </ol>
+    </div>
+    
+    
+    <div class="month-div">
+      <div class="month-name-div">Febuary</div>
+      <ol class="month-ol">
+
+        <li class="day-name">Sun</li>
+        <li class="day-name">Mon</li>
+        <li class="day-name">Tue</li>
+        <li class="day-name">Wed</li>
+        <li class="day-name">Thu</li>
+        <li class="day-name">Fri</li>
+        <li class="day-name">Sat</li>
+
+        
+        <li class="day past" id=31 style="grid-column-start:
+          4;">1</li>
+        
+
+        
+        
+        <li class="day past" id=32>2</li>
+        
+        
+        
+        <li class="day past" id=33>3</li>
+        
+        
+        
+        <li class="day past" id=34>4</li>
+        
+        
+        
+        <li class="day past" id=35>5</li>
+        
+        
+        
+        <li class="day past" id=36>6</li>
+        
+        
+        
+        <li class="day past" id=37>7</li>
+        
+        
+        
+        <li class="day past" id=38>8</li>
+        
+        
+        
+        <li class="day past" id=39>9</li>
+        
+        
+        
+        <li class="day past" id=40>10</li>
+        
+        
+        
+        <li class="day past" id=41>11</li>
+        
+        
+        
+        <li class="day" id=42
+          onclick="toggleDay(42)">12</li>
+        
+        
+        
+        <li class="day" id=43
+          onclick="toggleDay(43)">13</li>
+        
+        
+        
+        <li class="day" id=44
+          onclick="toggleDay(44)">14</li>
+        
+        
+        
+        <li class="day" id=45
+          onclick="toggleDay(45)">15</li>
+        
+        
+        
+        <li class="day" id=46
+          onclick="toggleDay(46)">16</li>
+        
+        
+        
+        <li class="day" id=47
+          onclick="toggleDay(47)">17</li>
+        
+        
+        
+        <li class="day" id=48
+          onclick="toggleDay(48)">18</li>
+        
+        
+        
+        <li class="day" id=49
+          onclick="toggleDay(49)">19</li>
+        
+        
+        
+        <li class="day" id=50
+          onclick="toggleDay(50)">20</li>
+        
+        
+        
+        <li class="day" id=51
+          onclick="toggleDay(51)">21</li>
+        
+        
+        
+        <li class="day" id=52
+          onclick="toggleDay(52)">22</li>
+        
+        
+        
+        <li class="day" id=53
+          onclick="toggleDay(53)">23</li>
+        
+        
+        
+        <li class="day" id=54
+          onclick="toggleDay(54)">24</li>
+        
+        
+        
+        <li class="day" id=55
+          onclick="toggleDay(55)">25</li>
+        
+        
+        
+        <li class="day" id=56
+          onclick="toggleDay(56)">26</li>
+        
+        
+        
+        <li class="day" id=57
+          onclick="toggleDay(57)">27</li>
+        
+        
+        
+        <li class="day" id=58
+          onclick="toggleDay(58)">28</li>
+        
+        
+      </ol>
+    </div>
+    
+    
+    <div class="month-div">
+      <div class="month-name-div">March</div>
+      <ol class="month-ol">
+
+        <li class="day-name">Sun</li>
+        <li class="day-name">Mon</li>
+        <li class="day-name">Tue</li>
+        <li class="day-name">Wed</li>
+        <li class="day-name">Thu</li>
+        <li class="day-name">Fri</li>
+        <li class="day-name">Sat</li>
+
+        
+        <li class="day" id=59 style="grid-column-start: 4;" onclick="toggleDay(59)">1</li>
+        
+
+        
+        
+        <li class="day" id=60
+          onclick="toggleDay(60)">2</li>
+        
+        
+        
+        <li class="day" id=61
+          onclick="toggleDay(61)">3</li>
+        
+        
+        
+        <li class="day" id=62
+          onclick="toggleDay(62)">4</li>
+        
+        
+        
+        <li class="day" id=63
+          onclick="toggleDay(63)">5</li>
+        
+        
+        
+        <li class="day" id=64
+          onclick="toggleDay(64)">6</li>
+        
+        
+        
+        <li class="day" id=65
+          onclick="toggleDay(65)">7</li>
+        
+        
+        
+        <li class="day" id=66
+          onclick="toggleDay(66)">8</li>
+        
+        
+        
+        <li class="day" id=67
+          onclick="toggleDay(67)">9</li>
+        
+        
+        
+        <li class="day" id=68
+          onclick="toggleDay(68)">10</li>
+        
+        
+        
+        <li class="day" id=69
+          onclick="toggleDay(69)">11</li>
+        
+        
+        
+        <li class="day" id=70
+          onclick="toggleDay(70)">12</li>
+        
+        
+        
+        <li class="day" id=71
+          onclick="toggleDay(71)">13</li>
+        
+        
+        
+        <li class="day" id=72
+          onclick="toggleDay(72)">14</li>
+        
+        
+        
+        <li class="day" id=73
+          onclick="toggleDay(73)">15</li>
+        
+        
+        
+        <li class="day" id=74
+          onclick="toggleDay(74)">16</li>
+        
+        
+        
+        <li class="day" id=75
+          onclick="toggleDay(75)">17</li>
+        
+        
+        
+        <li class="day" id=76
+          onclick="toggleDay(76)">18</li>
+        
+        
+        
+        <li class="day" id=77
+          onclick="toggleDay(77)">19</li>
+        
+        
+        
+        <li class="day" id=78
+          onclick="toggleDay(78)">20</li>
+        
+        
+        
+        <li class="day" id=79
+          onclick="toggleDay(79)">21</li>
+        
+        
+        
+        <li class="day" id=80
+          onclick="toggleDay(80)">22</li>
+        
+        
+        
+        <li class="day" id=81
+          onclick="toggleDay(81)">23</li>
+        
+        
+        
+        <li class="day" id=82
+          onclick="toggleDay(82)">24</li>
+        
+        
+        
+        <li class="day" id=83
+          onclick="toggleDay(83)">25</li>
+        
+        
+        
+        <li class="day" id=84
+          onclick="toggleDay(84)">26</li>
+        
+        
+        
+        <li class="day" id=85
+          onclick="toggleDay(85)">27</li>
+        
+        
+        
+        <li class="day" id=86
+          onclick="toggleDay(86)">28</li>
+        
+        
+        
+        <li class="day" id=87
+          onclick="toggleDay(87)">29</li>
+        
+        
+        
+        <li class="day" id=88
+          onclick="toggleDay(88)">30</li>
+        
+        
+        
+        <li class="day" id=89
+          onclick="toggleDay(89)">31</li>
+        
+        
+      </ol>
+    </div>
+    
+    
+    <div class="month-div">
+      <div class="month-name-div">April</div>
+      <ol class="month-ol">
+
+        <li class="day-name">Sun</li>
+        <li class="day-name">Mon</li>
+        <li class="day-name">Tue</li>
+        <li class="day-name">Wed</li>
+        <li class="day-name">Thu</li>
+        <li class="day-name">Fri</li>
+        <li class="day-name">Sat</li>
+
+        
+        <li class="day" id=90 style="grid-column-start: 7;" onclick="toggleDay(90)">1</li>
+        
+
+        
+        
+        <li class="day" id=91
+          onclick="toggleDay(91)">2</li>
+        
+        
+        
+        <li class="day" id=92
+          onclick="toggleDay(92)">3</li>
+        
+        
+        
+        <li class="day" id=93
+          onclick="toggleDay(93)">4</li>
+        
+        
+        
+        <li class="day" id=94
+          onclick="toggleDay(94)">5</li>
+        
+        
+        
+        <li class="day" id=95
+          onclick="toggleDay(95)">6</li>
+        
+        
+        
+        <li class="day" id=96
+          onclick="toggleDay(96)">7</li>
+        
+        
+        
+        <li class="day" id=97
+          onclick="toggleDay(97)">8</li>
+        
+        
+        
+        <li class="day" id=98
+          onclick="toggleDay(98)">9</li>
+        
+        
+        
+        <li class="day" id=99
+          onclick="toggleDay(99)">10</li>
+        
+        
+        
+        <li class="day" id=100
+          onclick="toggleDay(100)">11</li>
+        
+        
+        
+        <li class="day" id=101
+          onclick="toggleDay(101)">12</li>
+        
+        
+        
+        <li class="day" id=102
+          onclick="toggleDay(102)">13</li>
+        
+        
+        
+        <li class="day" id=103
+          onclick="toggleDay(103)">14</li>
+        
+        
+        
+        <li class="day" id=104
+          onclick="toggleDay(104)">15</li>
+        
+        
+        
+        <li class="day" id=105
+          onclick="toggleDay(105)">16</li>
+        
+        
+        
+        <li class="day" id=106
+          onclick="toggleDay(106)">17</li>
+        
+        
+        
+        <li class="day" id=107
+          onclick="toggleDay(107)">18</li>
+        
+        
+        
+        <li class="day" id=108
+          onclick="toggleDay(108)">19</li>
+        
+        
+        
+        <li class="day" id=109
+          onclick="toggleDay(109)">20</li>
+        
+        
+        
+        <li class="day" id=110
+          onclick="toggleDay(110)">21</li>
+        
+        
+        
+        <li class="day" id=111
+          onclick="toggleDay(111)">22</li>
+        
+        
+        
+        <li class="day" id=112
+          onclick="toggleDay(112)">23</li>
+        
+        
+        
+        <li class="day" id=113
+          onclick="toggleDay(113)">24</li>
+        
+        
+        
+        <li class="day" id=114
+          onclick="toggleDay(114)">25</li>
+        
+        
+        
+        <li class="day" id=115
+          onclick="toggleDay(115)">26</li>
+        
+        
+        
+        <li class="day" id=116
+          onclick="toggleDay(116)">27</li>
+        
+        
+        
+        <li class="day" id=117
+          onclick="toggleDay(117)">28</li>
+        
+        
+        
+        <li class="day" id=118
+          onclick="toggleDay(118)">29</li>
+        
+        
+        
+        <li class="day" id=119
+          onclick="toggleDay(119)">30</li>
+        
+        
+      </ol>
+    </div>
+    
+    
+    <div class="month-div">
+      <div class="month-name-div">May</div>
+      <ol class="month-ol">
+
+        <li class="day-name">Sun</li>
+        <li class="day-name">Mon</li>
+        <li class="day-name">Tue</li>
+        <li class="day-name">Wed</li>
+        <li class="day-name">Thu</li>
+        <li class="day-name">Fri</li>
+        <li class="day-name">Sat</li>
+
+        
+        <li class="day" id=120 style="grid-column-start: 2;" onclick="toggleDay(120)">1</li>
+        
+
+        
+        
+        <li class="day" id=121
+          onclick="toggleDay(121)">2</li>
+        
+        
+        
+        <li class="day" id=122
+          onclick="toggleDay(122)">3</li>
+        
+        
+        
+        <li class="day" id=123
+          onclick="toggleDay(123)">4</li>
+        
+        
+        
+        <li class="day" id=124
+          onclick="toggleDay(124)">5</li>
+        
+        
+        
+        <li class="day" id=125
+          onclick="toggleDay(125)">6</li>
+        
+        
+        
+        <li class="day" id=126
+          onclick="toggleDay(126)">7</li>
+        
+        
+        
+        <li class="day" id=127
+          onclick="toggleDay(127)">8</li>
+        
+        
+        
+        <li class="day" id=128
+          onclick="toggleDay(128)">9</li>
+        
+        
+        
+        <li class="day" id=129
+          onclick="toggleDay(129)">10</li>
+        
+        
+        
+        <li class="day" id=130
+          onclick="toggleDay(130)">11</li>
+        
+        
+        
+        <li class="day" id=131
+          onclick="toggleDay(131)">12</li>
+        
+        
+        
+        <li class="day" id=132
+          onclick="toggleDay(132)">13</li>
+        
+        
+        
+        <li class="day" id=133
+          onclick="toggleDay(133)">14</li>
+        
+        
+        
+        <li class="day" id=134
+          onclick="toggleDay(134)">15</li>
+        
+        
+        
+        <li class="day" id=135
+          onclick="toggleDay(135)">16</li>
+        
+        
+        
+        <li class="day" id=136
+          onclick="toggleDay(136)">17</li>
+        
+        
+        
+        <li class="day" id=137
+          onclick="toggleDay(137)">18</li>
+        
+        
+        
+        <li class="day" id=138
+          onclick="toggleDay(138)">19</li>
+        
+        
+        
+        <li class="day" id=139
+          onclick="toggleDay(139)">20</li>
+        
+        
+        
+        <li class="day" id=140
+          onclick="toggleDay(140)">21</li>
+        
+        
+        
+        <li class="day" id=141
+          onclick="toggleDay(141)">22</li>
+        
+        
+        
+        <li class="day" id=142
+          onclick="toggleDay(142)">23</li>
+        
+        
+        
+        <li class="day" id=143
+          onclick="toggleDay(143)">24</li>
+        
+        
+        
+        <li class="day" id=144
+          onclick="toggleDay(144)">25</li>
+        
+        
+        
+        <li class="day" id=145
+          onclick="toggleDay(145)">26</li>
+        
+        
+        
+        <li class="day" id=146
+          onclick="toggleDay(146)">27</li>
+        
+        
+        
+        <li class="day" id=147
+          onclick="toggleDay(147)">28</li>
+        
+        
+        
+        <li class="day" id=148
+          onclick="toggleDay(148)">29</li>
+        
+        
+        
+        <li class="day" id=149
+          onclick="toggleDay(149)">30</li>
+        
+        
+        
+        <li class="day" id=150
+          onclick="toggleDay(150)">31</li>
+        
+        
+      </ol>
+    </div>
+    
+    
+    <div class="month-div">
+      <div class="month-name-div">June</div>
+      <ol class="month-ol">
+
+        <li class="day-name">Sun</li>
+        <li class="day-name">Mon</li>
+        <li class="day-name">Tue</li>
+        <li class="day-name">Wed</li>
+        <li class="day-name">Thu</li>
+        <li class="day-name">Fri</li>
+        <li class="day-name">Sat</li>
+
+        
+        <li class="day" id=151 style="grid-column-start: 5;" onclick="toggleDay(151)">1</li>
+        
+
+        
+        
+        <li class="day" id=152
+          onclick="toggleDay(152)">2</li>
+        
+        
+        
+        <li class="day" id=153
+          onclick="toggleDay(153)">3</li>
+        
+        
+        
+        <li class="day" id=154
+          onclick="toggleDay(154)">4</li>
+        
+        
+        
+        <li class="day" id=155
+          onclick="toggleDay(155)">5</li>
+        
+        
+        
+        <li class="day" id=156
+          onclick="toggleDay(156)">6</li>
+        
+        
+        
+        <li class="day" id=157
+          onclick="toggleDay(157)">7</li>
+        
+        
+        
+        <li class="day" id=158
+          onclick="toggleDay(158)">8</li>
+        
+        
+        
+        <li class="day" id=159
+          onclick="toggleDay(159)">9</li>
+        
+        
+        
+        <li class="day" id=160
+          onclick="toggleDay(160)">10</li>
+        
+        
+        
+        <li class="day" id=161
+          onclick="toggleDay(161)">11</li>
+        
+        
+        
+        <li class="day" id=162
+          onclick="toggleDay(162)">12</li>
+        
+        
+        
+        <li class="day" id=163
+          onclick="toggleDay(163)">13</li>
+        
+        
+        
+        <li class="day" id=164
+          onclick="toggleDay(164)">14</li>
+        
+        
+        
+        <li class="day" id=165
+          onclick="toggleDay(165)">15</li>
+        
+        
+        
+        <li class="day" id=166
+          onclick="toggleDay(166)">16</li>
+        
+        
+        
+        <li class="day" id=167
+          onclick="toggleDay(167)">17</li>
+        
+        
+        
+        <li class="day" id=168
+          onclick="toggleDay(168)">18</li>
+        
+        
+        
+        <li class="day" id=169
+          onclick="toggleDay(169)">19</li>
+        
+        
+        
+        <li class="day" id=170
+          onclick="toggleDay(170)">20</li>
+        
+        
+        
+        <li class="day" id=171
+          onclick="toggleDay(171)">21</li>
+        
+        
+        
+        <li class="day" id=172
+          onclick="toggleDay(172)">22</li>
+        
+        
+        
+        <li class="day" id=173
+          onclick="toggleDay(173)">23</li>
+        
+        
+        
+        <li class="day" id=174
+          onclick="toggleDay(174)">24</li>
+        
+        
+        
+        <li class="day" id=175
+          onclick="toggleDay(175)">25</li>
+        
+        
+        
+        <li class="day" id=176
+          onclick="toggleDay(176)">26</li>
+        
+        
+        
+        <li class="day" id=177
+          onclick="toggleDay(177)">27</li>
+        
+        
+        
+        <li class="day" id=178
+          onclick="toggleDay(178)">28</li>
+        
+        
+        
+        <li class="day" id=179
+          onclick="toggleDay(179)">29</li>
+        
+        
+        
+        <li class="day" id=180
+          onclick="toggleDay(180)">30</li>
+        
+        
+      </ol>
+    </div>
+    
+    
+    <div class="month-div">
+      <div class="month-name-div">July</div>
+      <ol class="month-ol">
+
+        <li class="day-name">Sun</li>
+        <li class="day-name">Mon</li>
+        <li class="day-name">Tue</li>
+        <li class="day-name">Wed</li>
+        <li class="day-name">Thu</li>
+        <li class="day-name">Fri</li>
+        <li class="day-name">Sat</li>
+
+        
+        <li class="day" id=181 style="grid-column-start: 7;" onclick="toggleDay(181)">1</li>
+        
+
+        
+        
+        <li class="day" id=182
+          onclick="toggleDay(182)">2</li>
+        
+        
+        
+        <li class="day" id=183
+          onclick="toggleDay(183)">3</li>
+        
+        
+        
+        <li class="day" id=184
+          onclick="toggleDay(184)">4</li>
+        
+        
+        
+        <li class="day" id=185
+          onclick="toggleDay(185)">5</li>
+        
+        
+        
+        <li class="day" id=186
+          onclick="toggleDay(186)">6</li>
+        
+        
+        
+        <li class="day" id=187
+          onclick="toggleDay(187)">7</li>
+        
+        
+        
+        <li class="day" id=188
+          onclick="toggleDay(188)">8</li>
+        
+        
+        
+        <li class="day" id=189
+          onclick="toggleDay(189)">9</li>
+        
+        
+        
+        <li class="day" id=190
+          onclick="toggleDay(190)">10</li>
+        
+        
+        
+        <li class="day" id=191
+          onclick="toggleDay(191)">11</li>
+        
+        
+        
+        <li class="day" id=192
+          onclick="toggleDay(192)">12</li>
+        
+        
+        
+        <li class="day" id=193
+          onclick="toggleDay(193)">13</li>
+        
+        
+        
+        <li class="day" id=194
+          onclick="toggleDay(194)">14</li>
+        
+        
+        
+        <li class="day" id=195
+          onclick="toggleDay(195)">15</li>
+        
+        
+        
+        <li class="day" id=196
+          onclick="toggleDay(196)">16</li>
+        
+        
+        
+        <li class="day" id=197
+          onclick="toggleDay(197)">17</li>
+        
+        
+        
+        <li class="day" id=198
+          onclick="toggleDay(198)">18</li>
+        
+        
+        
+        <li class="day" id=199
+          onclick="toggleDay(199)">19</li>
+        
+        
+        
+        <li class="day" id=200
+          onclick="toggleDay(200)">20</li>
+        
+        
+        
+        <li class="day" id=201
+          onclick="toggleDay(201)">21</li>
+        
+        
+        
+        <li class="day" id=202
+          onclick="toggleDay(202)">22</li>
+        
+        
+        
+        <li class="day" id=203
+          onclick="toggleDay(203)">23</li>
+        
+        
+        
+        <li class="day" id=204
+          onclick="toggleDay(204)">24</li>
+        
+        
+        
+        <li class="day" id=205
+          onclick="toggleDay(205)">25</li>
+        
+        
+        
+        <li class="day" id=206
+          onclick="toggleDay(206)">26</li>
+        
+        
+        
+        <li class="day" id=207
+          onclick="toggleDay(207)">27</li>
+        
+        
+        
+        <li class="day" id=208
+          onclick="toggleDay(208)">28</li>
+        
+        
+        
+        <li class="day" id=209
+          onclick="toggleDay(209)">29</li>
+        
+        
+        
+        <li class="day" id=210
+          onclick="toggleDay(210)">30</li>
+        
+        
+        
+        <li class="day" id=211
+          onclick="toggleDay(211)">31</li>
+        
+        
+      </ol>
+    </div>
+    
+    
+    <div class="month-div">
+      <div class="month-name-div">August</div>
+      <ol class="month-ol">
+
+        <li class="day-name">Sun</li>
+        <li class="day-name">Mon</li>
+        <li class="day-name">Tue</li>
+        <li class="day-name">Wed</li>
+        <li class="day-name">Thu</li>
+        <li class="day-name">Fri</li>
+        <li class="day-name">Sat</li>
+
+        
+        <li class="day" id=212 style="grid-column-start: 3;" onclick="toggleDay(212)">1</li>
+        
+
+        
+        
+        <li class="day" id=213
+          onclick="toggleDay(213)">2</li>
+        
+        
+        
+        <li class="day" id=214
+          onclick="toggleDay(214)">3</li>
+        
+        
+        
+        <li class="day" id=215
+          onclick="toggleDay(215)">4</li>
+        
+        
+        
+        <li class="day" id=216
+          onclick="toggleDay(216)">5</li>
+        
+        
+        
+        <li class="day" id=217
+          onclick="toggleDay(217)">6</li>
+        
+        
+        
+        <li class="day" id=218
+          onclick="toggleDay(218)">7</li>
+        
+        
+        
+        <li class="day" id=219
+          onclick="toggleDay(219)">8</li>
+        
+        
+        
+        <li class="day" id=220
+          onclick="toggleDay(220)">9</li>
+        
+        
+        
+        <li class="day" id=221
+          onclick="toggleDay(221)">10</li>
+        
+        
+        
+        <li class="day" id=222
+          onclick="toggleDay(222)">11</li>
+        
+        
+        
+        <li class="day" id=223
+          onclick="toggleDay(223)">12</li>
+        
+        
+        
+        <li class="day" id=224
+          onclick="toggleDay(224)">13</li>
+        
+        
+        
+        <li class="day" id=225
+          onclick="toggleDay(225)">14</li>
+        
+        
+        
+        <li class="day" id=226
+          onclick="toggleDay(226)">15</li>
+        
+        
+        
+        <li class="day" id=227
+          onclick="toggleDay(227)">16</li>
+        
+        
+        
+        <li class="day" id=228
+          onclick="toggleDay(228)">17</li>
+        
+        
+        
+        <li class="day" id=229
+          onclick="toggleDay(229)">18</li>
+        
+        
+        
+        <li class="day" id=230
+          onclick="toggleDay(230)">19</li>
+        
+        
+        
+        <li class="day" id=231
+          onclick="toggleDay(231)">20</li>
+        
+        
+        
+        <li class="day" id=232
+          onclick="toggleDay(232)">21</li>
+        
+        
+        
+        <li class="day" id=233
+          onclick="toggleDay(233)">22</li>
+        
+        
+        
+        <li class="day" id=234
+          onclick="toggleDay(234)">23</li>
+        
+        
+        
+        <li class="day" id=235
+          onclick="toggleDay(235)">24</li>
+        
+        
+        
+        <li class="day" id=236
+          onclick="toggleDay(236)">25</li>
+        
+        
+        
+        <li class="day" id=237
+          onclick="toggleDay(237)">26</li>
+        
+        
+        
+        <li class="day" id=238
+          onclick="toggleDay(238)">27</li>
+        
+        
+        
+        <li class="day" id=239
+          onclick="toggleDay(239)">28</li>
+        
+        
+        
+        <li class="day" id=240
+          onclick="toggleDay(240)">29</li>
+        
+        
+        
+        <li class="day" id=241
+          onclick="toggleDay(241)">30</li>
+        
+        
+        
+        <li class="day" id=242
+          onclick="toggleDay(242)">31</li>
+        
+        
+      </ol>
+    </div>
+    
+    
+    <div class="month-div">
+      <div class="month-name-div">September</div>
+      <ol class="month-ol">
+
+        <li class="day-name">Sun</li>
+        <li class="day-name">Mon</li>
+        <li class="day-name">Tue</li>
+        <li class="day-name">Wed</li>
+        <li class="day-name">Thu</li>
+        <li class="day-name">Fri</li>
+        <li class="day-name">Sat</li>
+
+        
+        <li class="day" id=243 style="grid-column-start: 6;" onclick="toggleDay(243)">1</li>
+        
+
+        
+        
+        <li class="day" id=244
+          onclick="toggleDay(244)">2</li>
+        
+        
+        
+        <li class="day" id=245
+          onclick="toggleDay(245)">3</li>
+        
+        
+        
+        <li class="day" id=246
+          onclick="toggleDay(246)">4</li>
+        
+        
+        
+        <li class="day" id=247
+          onclick="toggleDay(247)">5</li>
+        
+        
+        
+        <li class="day" id=248
+          onclick="toggleDay(248)">6</li>
+        
+        
+        
+        <li class="day" id=249
+          onclick="toggleDay(249)">7</li>
+        
+        
+        
+        <li class="day" id=250
+          onclick="toggleDay(250)">8</li>
+        
+        
+        
+        <li class="day" id=251
+          onclick="toggleDay(251)">9</li>
+        
+        
+        
+        <li class="day" id=252
+          onclick="toggleDay(252)">10</li>
+        
+        
+        
+        <li class="day" id=253
+          onclick="toggleDay(253)">11</li>
+        
+        
+        
+        <li class="day" id=254
+          onclick="toggleDay(254)">12</li>
+        
+        
+        
+        <li class="day" id=255
+          onclick="toggleDay(255)">13</li>
+        
+        
+        
+        <li class="day" id=256
+          onclick="toggleDay(256)">14</li>
+        
+        
+        
+        <li class="day" id=257
+          onclick="toggleDay(257)">15</li>
+        
+        
+        
+        <li class="day" id=258
+          onclick="toggleDay(258)">16</li>
+        
+        
+        
+        <li class="day" id=259
+          onclick="toggleDay(259)">17</li>
+        
+        
+        
+        <li class="day" id=260
+          onclick="toggleDay(260)">18</li>
+        
+        
+        
+        <li class="day" id=261
+          onclick="toggleDay(261)">19</li>
+        
+        
+        
+        <li class="day" id=262
+          onclick="toggleDay(262)">20</li>
+        
+        
+        
+        <li class="day" id=263
+          onclick="toggleDay(263)">21</li>
+        
+        
+        
+        <li class="day" id=264
+          onclick="toggleDay(264)">22</li>
+        
+        
+        
+        <li class="day" id=265
+          onclick="toggleDay(265)">23</li>
+        
+        
+        
+        <li class="day" id=266
+          onclick="toggleDay(266)">24</li>
+        
+        
+        
+        <li class="day" id=267
+          onclick="toggleDay(267)">25</li>
+        
+        
+        
+        <li class="day" id=268
+          onclick="toggleDay(268)">26</li>
+        
+        
+        
+        <li class="day" id=269
+          onclick="toggleDay(269)">27</li>
+        
+        
+        
+        <li class="day" id=270
+          onclick="toggleDay(270)">28</li>
+        
+        
+        
+        <li class="day" id=271
+          onclick="toggleDay(271)">29</li>
+        
+        
+        
+        <li class="day" id=272
+          onclick="toggleDay(272)">30</li>
+        
+        
+      </ol>
+    </div>
+    
+    
+    <div class="month-div">
+      <div class="month-name-div">October</div>
+      <ol class="month-ol">
+
+        <li class="day-name">Sun</li>
+        <li class="day-name">Mon</li>
+        <li class="day-name">Tue</li>
+        <li class="day-name">Wed</li>
+        <li class="day-name">Thu</li>
+        <li class="day-name">Fri</li>
+        <li class="day-name">Sat</li>
+
+        
+        <li class="day" id=273 style="grid-column-start: 1;" onclick="toggleDay(273)">1</li>
+        
+
+        
+        
+        <li class="day" id=274
+          onclick="toggleDay(274)">2</li>
+        
+        
+        
+        <li class="day" id=275
+          onclick="toggleDay(275)">3</li>
+        
+        
+        
+        <li class="day" id=276
+          onclick="toggleDay(276)">4</li>
+        
+        
+        
+        <li class="day" id=277
+          onclick="toggleDay(277)">5</li>
+        
+        
+        
+        <li class="day" id=278
+          onclick="toggleDay(278)">6</li>
+        
+        
+        
+        <li class="day" id=279
+          onclick="toggleDay(279)">7</li>
+        
+        
+        
+        <li class="day" id=280
+          onclick="toggleDay(280)">8</li>
+        
+        
+        
+        <li class="day" id=281
+          onclick="toggleDay(281)">9</li>
+        
+        
+        
+        <li class="day" id=282
+          onclick="toggleDay(282)">10</li>
+        
+        
+        
+        <li class="day" id=283
+          onclick="toggleDay(283)">11</li>
+        
+        
+        
+        <li class="day" id=284
+          onclick="toggleDay(284)">12</li>
+        
+        
+        
+        <li class="day" id=285
+          onclick="toggleDay(285)">13</li>
+        
+        
+        
+        <li class="day" id=286
+          onclick="toggleDay(286)">14</li>
+        
+        
+        
+        <li class="day" id=287
+          onclick="toggleDay(287)">15</li>
+        
+        
+        
+        <li class="day" id=288
+          onclick="toggleDay(288)">16</li>
+        
+        
+        
+        <li class="day" id=289
+          onclick="toggleDay(289)">17</li>
+        
+        
+        
+        <li class="day" id=290
+          onclick="toggleDay(290)">18</li>
+        
+        
+        
+        <li class="day" id=291
+          onclick="toggleDay(291)">19</li>
+        
+        
+        
+        <li class="day" id=292
+          onclick="toggleDay(292)">20</li>
+        
+        
+        
+        <li class="day" id=293
+          onclick="toggleDay(293)">21</li>
+        
+        
+        
+        <li class="day" id=294
+          onclick="toggleDay(294)">22</li>
+        
+        
+        
+        <li class="day" id=295
+          onclick="toggleDay(295)">23</li>
+        
+        
+        
+        <li class="day" id=296
+          onclick="toggleDay(296)">24</li>
+        
+        
+        
+        <li class="day" id=297
+          onclick="toggleDay(297)">25</li>
+        
+        
+        
+        <li class="day" id=298
+          onclick="toggleDay(298)">26</li>
+        
+        
+        
+        <li class="day" id=299
+          onclick="toggleDay(299)">27</li>
+        
+        
+        
+        <li class="day" id=300
+          onclick="toggleDay(300)">28</li>
+        
+        
+        
+        <li class="day" id=301
+          onclick="toggleDay(301)">29</li>
+        
+        
+        
+        <li class="day" id=302
+          onclick="toggleDay(302)">30</li>
+        
+        
+        
+        <li class="day" id=303
+          onclick="toggleDay(303)">31</li>
+        
+        
+      </ol>
+    </div>
+    
+    
+    <div class="month-div">
+      <div class="month-name-div">November</div>
+      <ol class="month-ol">
+
+        <li class="day-name">Sun</li>
+        <li class="day-name">Mon</li>
+        <li class="day-name">Tue</li>
+        <li class="day-name">Wed</li>
+        <li class="day-name">Thu</li>
+        <li class="day-name">Fri</li>
+        <li class="day-name">Sat</li>
+
+        
+        <li class="day" id=304 style="grid-column-start: 4;" onclick="toggleDay(304)">1</li>
+        
+
+        
+        
+        <li class="day" id=305
+          onclick="toggleDay(305)">2</li>
+        
+        
+        
+        <li class="day" id=306
+          onclick="toggleDay(306)">3</li>
+        
+        
+        
+        <li class="day" id=307
+          onclick="toggleDay(307)">4</li>
+        
+        
+        
+        <li class="day" id=308
+          onclick="toggleDay(308)">5</li>
+        
+        
+        
+        <li class="day" id=309
+          onclick="toggleDay(309)">6</li>
+        
+        
+        
+        <li class="day" id=310
+          onclick="toggleDay(310)">7</li>
+        
+        
+        
+        <li class="day" id=311
+          onclick="toggleDay(311)">8</li>
+        
+        
+        
+        <li class="day" id=312
+          onclick="toggleDay(312)">9</li>
+        
+        
+        
+        <li class="day" id=313
+          onclick="toggleDay(313)">10</li>
+        
+        
+        
+        <li class="day" id=314
+          onclick="toggleDay(314)">11</li>
+        
+        
+        
+        <li class="day" id=315
+          onclick="toggleDay(315)">12</li>
+        
+        
+        
+        <li class="day" id=316
+          onclick="toggleDay(316)">13</li>
+        
+        
+        
+        <li class="day" id=317
+          onclick="toggleDay(317)">14</li>
+        
+        
+        
+        <li class="day" id=318
+          onclick="toggleDay(318)">15</li>
+        
+        
+        
+        <li class="day" id=319
+          onclick="toggleDay(319)">16</li>
+        
+        
+        
+        <li class="day" id=320
+          onclick="toggleDay(320)">17</li>
+        
+        
+        
+        <li class="day" id=321
+          onclick="toggleDay(321)">18</li>
+        
+        
+        
+        <li class="day" id=322
+          onclick="toggleDay(322)">19</li>
+        
+        
+        
+        <li class="day" id=323
+          onclick="toggleDay(323)">20</li>
+        
+        
+        
+        <li class="day" id=324
+          onclick="toggleDay(324)">21</li>
+        
+        
+        
+        <li class="day" id=325
+          onclick="toggleDay(325)">22</li>
+        
+        
+        
+        <li class="day" id=326
+          onclick="toggleDay(326)">23</li>
+        
+        
+        
+        <li class="day" id=327
+          onclick="toggleDay(327)">24</li>
+        
+        
+        
+        <li class="day" id=328
+          onclick="toggleDay(328)">25</li>
+        
+        
+        
+        <li class="day" id=329
+          onclick="toggleDay(329)">26</li>
+        
+        
+        
+        <li class="day" id=330
+          onclick="toggleDay(330)">27</li>
+        
+        
+        
+        <li class="day" id=331
+          onclick="toggleDay(331)">28</li>
+        
+        
+        
+        <li class="day" id=332
+          onclick="toggleDay(332)">29</li>
+        
+        
+        
+        <li class="day" id=333
+          onclick="toggleDay(333)">30</li>
+        
+        
+      </ol>
+    </div>
+    
+    
+    <div class="month-div">
+      <div class="month-name-div">December</div>
+      <ol class="month-ol">
+
+        <li class="day-name">Sun</li>
+        <li class="day-name">Mon</li>
+        <li class="day-name">Tue</li>
+        <li class="day-name">Wed</li>
+        <li class="day-name">Thu</li>
+        <li class="day-name">Fri</li>
+        <li class="day-name">Sat</li>
+
+        
+        <li class="day" id=334 style="grid-column-start: 6;" onclick="toggleDay(334)">1</li>
+        
+
+        
+        
+        <li class="day" id=335
+          onclick="toggleDay(335)">2</li>
+        
+        
+        
+        <li class="day" id=336
+          onclick="toggleDay(336)">3</li>
+        
+        
+        
+        <li class="day" id=337
+          onclick="toggleDay(337)">4</li>
+        
+        
+        
+        <li class="day" id=338
+          onclick="toggleDay(338)">5</li>
+        
+        
+        
+        <li class="day" id=339
+          onclick="toggleDay(339)">6</li>
+        
+        
+        
+        <li class="day" id=340
+          onclick="toggleDay(340)">7</li>
+        
+        
+        
+        <li class="day" id=341
+          onclick="toggleDay(341)">8</li>
+        
+        
+        
+        <li class="day" id=342
+          onclick="toggleDay(342)">9</li>
+        
+        
+        
+        <li class="day" id=343
+          onclick="toggleDay(343)">10</li>
+        
+        
+        
+        <li class="day" id=344
+          onclick="toggleDay(344)">11</li>
+        
+        
+        
+        <li class="day" id=345
+          onclick="toggleDay(345)">12</li>
+        
+        
+        
+        <li class="day" id=346
+          onclick="toggleDay(346)">13</li>
+        
+        
+        
+        <li class="day" id=347
+          onclick="toggleDay(347)">14</li>
+        
+        
+        
+        <li class="day" id=348
+          onclick="toggleDay(348)">15</li>
+        
+        
+        
+        <li class="day" id=349
+          onclick="toggleDay(349)">16</li>
+        
+        
+        
+        <li class="day" id=350
+          onclick="toggleDay(350)">17</li>
+        
+        
+        
+        <li class="day" id=351
+          onclick="toggleDay(351)">18</li>
+        
+        
+        
+        <li class="day" id=352
+          onclick="toggleDay(352)">19</li>
+        
+        
+        
+        <li class="day" id=353
+          onclick="toggleDay(353)">20</li>
+        
+        
+        
+        <li class="day" id=354
+          onclick="toggleDay(354)">21</li>
+        
+        
+        
+        <li class="day" id=355
+          onclick="toggleDay(355)">22</li>
+        
+        
+        
+        <li class="day" id=356
+          onclick="toggleDay(356)">23</li>
+        
+        
+        
+        <li class="day" id=357
+          onclick="toggleDay(357)">24</li>
+        
+        
+        
+        <li class="day" id=358
+          onclick="toggleDay(358)">25</li>
+        
+        
+        
+        <li class="day" id=359
+          onclick="toggleDay(359)">26</li>
+        
+        
+        
+        <li class="day" id=360
+          onclick="toggleDay(360)">27</li>
+        
+        
+        
+        <li class="day" id=361
+          onclick="toggleDay(361)">28</li>
+        
+        
+        
+        <li class="day" id=362
+          onclick="toggleDay(362)">29</li>
+        
+        
+        
+        <li class="day" id=363
+          onclick="toggleDay(363)">30</li>
+        
+        
+        
+        <li class="day" id=364
+          onclick="toggleDay(364)">31</li>
+        
+        
+      </ol>
+    </div>
+    
+    
+  </div>
+  <div class="chart-div"><canvas id="chart"></canvas></div>
+</div>
+
+    </div>
+  </body>
+</html>
