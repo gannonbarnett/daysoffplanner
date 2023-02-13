@@ -1,5 +1,6 @@
 from flask import Flask, session, render_template
 from datetime import datetime, timedelta
+import os
 
 def get_today_index_of_year():
     today = datetime.today()
