@@ -109,12 +109,18 @@ function reloadGraph() {
   let timeoffRateHrs = parseFloat(document.getElementById(timeoffRateId).value)
 
   let days = document.getElementsByClassName("day")
+  let twoWeeksPassed = false;
   for (var i = 0; i < days.length; i += 1) {
     let day = days[i]
     let date = new Date(day.id)
 
     if (date.getDay() == 5) { // Friday 
-      balanceHrs += timeoffRateHrs
+      if (twoWeeksPassed) {
+        balanceHrs += timeoffRateHrs
+        twoWeeksPassed = false;
+      } else {
+        twoWeeksPassed = true;
+      }
     }
 
     if (timeOffDays.indexOf(day.id) !== -1) {
