@@ -105,8 +105,8 @@ function reloadGraph() {
 
   let labels = []
   let values = []
-  let balanceHrs = parseFloat(document.getElementById(startingBalanceId).value)
-  let timeoffRateHrs = parseFloat(document.getElementById(timeoffRateId).value)
+  let balanceHrs = parseFloat(document.getElementById(startingBalanceId).value) * 8
+  let timeoffRateHrs = parseFloat(document.getElementById(timeoffRateId).value) * 8 / 26 
 
   let days = document.getElementsByClassName("day")
   let twoWeeksPassed = false;
@@ -203,6 +203,7 @@ function reloadGraph() {
   createCookie(holidaysCookieKey, holidays.join("|"), 365)
   createCookie(startingBalanceCookieKey, document.getElementById(startingBalanceId).value, 365)
   createCookie(timeOffRateCookieKey, document.getElementById(timeoffRateId).value, 365)
+  createCookie("days-off-planner-version", "1.0", 365)
 }
 
 function toggleHolidayList() {
