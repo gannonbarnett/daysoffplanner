@@ -1,0 +1,2 @@
+.PHONY run:
+	flask run

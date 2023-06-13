@@ -8,9 +8,9 @@
       <div class="holidays-div">
         <div onclick="toggleHolidayList()">Holidays</div>
         <div id="holidays-content-div-id" class="holidays-content-div">
-          {% for name, i in holidays.items() %}
-          <div id=holiday-{{i}} class="holidays-button-div"
-            onclick=toggleHoliday({{i}})>{{name}}</div>
+          {% for name, date in holidays.items() %}
+          <div id="holiday-{{date.iso}}" class="holidays-button-div"
+            onclick=toggleHoliday("{{date.iso}}")>{{name}}</div>
           {% endfor %}
         </div>
       </div>
@@ -36,12 +36,10 @@
 
 <div class="non-header-div">
   <div class="annual-div" onload="loadFromCookies()">
-    {% set vars = {'monthStartI': 0} %}
-    {% for name, monthEndI in months.items() %}
+    {% for month in months %}
     <div class="month-div">
-      <div class="month-name-div">{{ name }}</div>
+      <div class="month-name-div">{{ month.name }} {{ month.year }}</div>
       <ol class="month-ol">
-
         <li class="day-name">Sun</li>
         <li class="day-name">Mon</li>
         <li class="day-name">Tue</li>
@@ -50,28 +48,20 @@
         <li class="day-name">Fri</li>
         <li class="day-name">Sat</li>
 
-        {% if vars.monthStartI <todayIndex %}
-        <li class="day past" id={{vars.monthStartI}} style="grid-column-start:
-          {{
-          (vars.monthStartI + annualStartDay) % 7 + 1
-          }};">1</li>
+        {% for date in month.days %}
+        {% if date.iso < today.iso %}
+        <li class="day past" id={{date.iso}} style="grid-column-start:{{ date.weekday }};">
+          {{date.monthday}}
+        </li>
         {% else %}
-        <li class="day" id={{vars.monthStartI}} style="grid-column-start: {{
-          (vars.monthStartI + annualStartDay) % 7 + 1
-          }};" onclick="toggleDay({{vars.monthStartI}})">1</li>
-        {% endif %}
-
-        {% for i in range(2, monthEndI - vars.monthStartI+ 1) %}
-        {% if vars.monthStartI + i - 1 <todayIndex %}
-        <li class="day past" id={{vars.monthStartI+i-1}}>{{ i }}</li>
-        {% else %}
-        <li class="day" id={{vars.monthStartI+i-1}}
-          onclick="toggleDay({{vars.monthStartI+i-1}})">{{ i }}</li>
+        <li class="day" id={{date.iso}} style="grid-column-start:{{ date.weekday }};"
+          onclick="toggleDay('{{date.iso}}')">
+          {{date.monthday}}
+        </li>
         {% endif %}
         {% endfor %}
       </ol>
     </div>
-    {% if vars.update({'monthStartI': monthEndI }) %}{% endif %}
     {% endfor %}
   </div>
   <div class="chart-div"><canvas id="chart"></canvas></div>
