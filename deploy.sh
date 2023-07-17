@@ -1,4 +1,3 @@
-echo "daysoffplanner.com" > source/CNAME
 git add .
 git commit -m "deploy"
 git push
