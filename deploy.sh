@@ -1,5 +1,3 @@
-rm -rf build
-python3 freeze.py
 echo "daysoffplanner.com" > build/CNAME
 git add .
 git commit -m "deploy"

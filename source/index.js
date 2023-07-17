@@ -1,3 +1,45 @@
+const MonthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+
+const holidayDates = [
+  { name: "July 4th 2023", date: new Date(2023, 6, 4) },
+  { name: "Labor Day 2023", date: new Date(2023, 8, 4) },
+  { name: "Thanksgiving Day 2023", date: new Date(2023, 10, 23) },
+  { name: "Thanksgiving Friday 2023", date: new Date(2023, 10, 24) },
+  { name: "Christmas Day 2023", date: new Date(2023, 11, 25) },
+  { name: "New Year's Day 2024", date: new Date(2024, 0, 1) },
+  { name: "Martin Luther King Jr. Day 2024", date: new Date(2024, 0, 15) },
+  { name: "Presidents Day 2024", date: new Date(2024, 1, 19) },
+  { name: "Memorial Day 2024", date: new Date(2024, 4, 27) },
+  { name: "July 4th 2024", date: new Date(2024, 6, 4) },
+  { name: "Labor Day 2024", date: new Date(2024, 8, 2) },
+  { name: "Thanksgiving Day 2024", date: new Date(2024, 10, 28) },
+  { name: "Christmas Day 2024", date: new Date(2024, 11, 25) },
+  { name: "New Year's Day 2025", date: new Date(2025, 0, 1) },
+  { name: "Martin Luther King Jr. Day 2025", date: new Date(2025, 0, 20) },
+  { name: "Presidents Day 2025", date: new Date(2025, 1, 17) },
+  { name: "Memorial Day 2025", date: new Date(2025, 4, 26) },
+  { name: "July 4th 2025", date: new Date(2025, 6, 4) },
+  { name: "Labor Day 2025", date: new Date(2025, 8, 1) },
+  { name: "Thanksgiving Day 2025", date: new Date(2025, 10, 27) },
+  { name: "Christmas Day 2025", date: new Date(2025, 11, 25) },
+  { name: "New Year's Day 2026", date: new Date(2026, 0, 1) },
+  { name: "Martin Luther King Jr. Day 2026", date: new Date(2026, 0, 19) },
+  { name: "Presidents Day 2026", date: new Date(2026, 1, 16) },
+  { name: "Memorial Day 2026", date: new Date(2026, 4, 25) },
+  { name: "July 4th 2026", date: new Date(2026, 6, 3) },
+  { name: "Labor Day 2026", date: new Date(2026, 8, 7) },
+  { name: "Thanksgiving Day 2026", date: new Date(2026, 10, 26) },
+  { name: "Christmas Day 2026", date: new Date(2026, 11, 25) },
+  { name: "New Year's Day 2027", date: new Date(2027, 0, 1) },
+  { name: "Martin Luther King Jr. Day 2027", date: new Date(2027, 0, 18) },
+  { name: "Presidents Day 2027", date: new Date(2027, 1, 15) },
+  { name: "Memorial Day 2027", date: new Date(2027, 4, 31) },
+  { name: "July 4th 2027", date: new Date(2027, 6, 5) },
+  { name: "Labor Day 2027", date: new Date(2027, 8, 6) },
+  { name: "Thanksgiving Day 2027", date: new Date(2027, 10, 25) },
+  { name: "Christmas Day 2027", date: new Date(2027, 11, 25) }
+];
+
 const DayMs = 86400000
 
 // String of dates in ISO format.
@@ -65,7 +107,7 @@ function removeHoliday(date) {
 }
 
 function addHoliday(date) {
-  const holidayEl = document.getElementById(`holiday-${date}`);
+  const holidayEl = document.getElementById(`holiday-${date}`)
   const dayEl = document.getElementById(date)
   removeTimeoff(date)
   if (holidays.indexOf(date) == -1) {
@@ -217,8 +259,8 @@ function toggleHolidayList() {
 
 
 function loadFromCookies() {
-  // Load from cookies.
   let timeOffFromCookie = getCookie(timeOffCookieKey).split("|");
+  console.log(timeOffFromCookie);
   for (let i = 0; i < timeOffFromCookie.length; i += 1) {
     if (timeOffFromCookie[i] == '') {
       continue
@@ -226,6 +268,7 @@ function loadFromCookies() {
     addTimeoff(timeOffFromCookie[i])
   }
   let holidaysFromCookie = getCookie(holidaysCookieKey).split("|");
+  console.log(holidaysFromCookie);
   for (let i = 0; i < holidaysFromCookie.length; i += 1) {
     if (holidaysFromCookie[i] == '') {
       continue
@@ -235,16 +278,91 @@ function loadFromCookies() {
 
   document.getElementById(startingBalanceId).value = Number(getCookie(startingBalanceCookieKey))
   let timeOffRateFromCookie = Number(getCookie(timeOffRateCookieKey));
-  if (timeOffRateFromCookie == 0.0) {
-    timeOffRateFromCookie = 4.5 // Default rate is 4.5
+  if (timeOffRateFromCookie != 0.0) {
+    document.getElementById(timeoffRateId).value = timeOffRateFromCookie
   }
-  document.getElementById(timeoffRateId).value = timeOffRateFromCookie
 
   reloadGraph()
 }
 
+function start() {
+  var now = new Date();
+  document.getElementById("year-span").innerHTML = now.getFullYear();
+
+  var startDay = new Date();
+  startDay.setDate(1);
+  var endDay = new Date();
+  endDay.setFullYear(startDay.getFullYear() + 1); 
+  for (var i = 0; i < holidayDates.length; i++) {
+    if (holidayDates[i].date < startDay || holidayDates[i].date > endDay) { 
+      continue 
+    }
+
+    var parent = document.getElementById("holidays-content-div-id");
+    var div = document.createElement("div"); 
+    var iso = holidayDates[i].date.toISOString().split("T")[0];
+    div.id = `holiday-${iso}`;
+    div.className = "holidays-button-div";
+    div.onclick = function() { toggleHoliday(this.id.replace("holiday-", "")) };
+    div.innerHTML = holidayDates[i].name;
+    parent.appendChild(div);
+  }
+
+  var lastMonth = -1;
+  var annualDay = new Date();
+  annualDay.setDate(1);
+  while (true) {
+    if (annualDay > endDay) {
+      break
+    }
+    lastMonth = annualDay.getMonth();
+
+    var parent = document.getElementById("annual-div-id");
+    var monthDiv = document.createElement("div"); 
+    monthDiv.className = "month-div";
+    var monthNameDiv = document.createElement("div");
+    monthNameDiv.className = "month-name-div";
+    monthNameDiv.innerHTML = `${MonthNames[annualDay.getMonth()]} ${annualDay.getFullYear()}`;
+    monthDiv.appendChild(monthNameDiv);
+
+    var monthOl = document.createElement("ol");
+    monthOl.className = "month-ol";
+    for (var weekday = 0; weekday < 7; weekday ++) {
+      var weekdayLi = document.createElement("li");
+      weekdayLi.className = "day-name";
+      weekdayLi.innerHTML = `${["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][weekday]}`;
+      monthOl.appendChild(weekdayLi);
+    }
+    monthDiv.appendChild(monthOl);
+
+    for (var monthDayI = 0; monthDayI < [31,28,31,30,31,30,31,31,30,31,30,31][annualDay.getMonth()]; monthDayI ++) {
+      var monthDay = new Date(annualDay.getTime()); monthDay.setDate(monthDayI+1)
+
+      var monthDayIso = new Date(monthDay.getTime()); monthDayIso.setDate(monthDay.getDate()-1)
+
+      var monthDayLi = document.createElement("li");
+      monthDayLi.id = monthDayIso.toISOString().split("T")[0]  
+      monthDayLi.className = "day";
+      monthDayLi.onclick = function() { toggleDay(this.id) };
+      monthDayLi.style = `grid-column-start: ${monthDay.getDay() + 1}`
+      monthDayLi.innerHTML = `${monthDay.getDate()}`;
+
+      if (monthDay < now) {
+        monthDayLi.classList.add("past")
+      }
+
+      monthOl.appendChild(monthDayLi);
+    }
+
+    parent.appendChild(monthDiv);
+    annualDay.setMonth(annualDay.getMonth() + 1);
+  }
+
+  loadFromCookies();
+}
+
 Chart.defaults.color = '#000';
-window.onload = loadFromCookies;
+window.onload = start;
 console.log("")
 console.log("             -------------")
 console.log("             |   | x |   |")
@@ -255,3 +373,4 @@ console.log("             | x | x | x |")
 console.log("             -------------")
 console.log("      https://gannonbarnett.com/")
 console.log("")
+

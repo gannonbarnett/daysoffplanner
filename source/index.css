@@ -69,9 +69,6 @@ input {
   margin-right: 5px;
 }
 
-.non-header-div {
-}
-
 .title {
   font-size: x-large;
 }
@@ -126,6 +123,7 @@ input {
   font-size: medium;
   max-width: 280px;
   display: inline-block;
+  padding-right: 4px;
 }
 
 .month-ol {
