@@ -42,6 +42,10 @@ const holidayDates = [
 
 const DayMs = 86400000
 
+function DaysBetween(first, second) {        
+  return Math.round((second.valueOf() - first.valueOf()) / DayMs);
+}
+
 // String of dates in ISO format.
 let timeOffDays = [] 
 
@@ -49,13 +53,15 @@ let timeOffDays = []
 let holidays = []
 
 const mainChartId = "chart"
-const startingBalanceId = "starting-balance"
 const timeoffRateId = "timeoff-rate"
+
+// Value and date represent a reference point for the current balance.
+const pinnedBalanceValueId = "pinned-balance-value"
+const pinnedBalanceDateId = "pinned-balance-date"
 
 const timeOffCookieKey = "timeOffDays"
 const holidaysCookieKey = "holidays"
 const timeOffRateCookieKey = "timeOffRate"
-const startingBalanceCookieKey = "startingBalance"
 
 
 var mainChart = null
@@ -120,9 +126,9 @@ function addHoliday(date) {
 }
 
 // Cookies
-function createCookie(name, value, days) {
-  var now = new Date()
-  document.cookie = `${name}=${value}; expires=${(new Date()).setFullYear(now.getFullYear() + 1)}; path=/`
+function createCookie(name, value) {
+  var now = new Date();
+  document.cookie = `${name}=${value}; expires=${(new Date()).setFullYear(now.getFullYear() + 10)}; path=/`
 }
 
 function getCookie(name) {
@@ -147,7 +153,9 @@ function reloadGraph() {
 
   let labels = []
   let values = []
-  let balanceHrs = parseFloat(document.getElementById(startingBalanceId).value) * 8
+
+  let balanceHrs = parseFloat(document.getElementById(pinnedBalanceValueId).value)
+
   let timeoffRateHrs = parseFloat(document.getElementById(timeoffRateId).value) * 8 / 26 
 
   let days = document.getElementsByClassName("day")
@@ -228,7 +236,6 @@ function reloadGraph() {
       },
     });
   } else {
-    // Reset all the datapoints.
     mainChart.data.datasets.forEach((dataset) => {
       dataset.data = []
     });
@@ -241,11 +248,11 @@ function reloadGraph() {
     mainChart.update();
   }
 
-  createCookie(timeOffCookieKey, timeOffDays.join("|"), 365)
-  createCookie(holidaysCookieKey, holidays.join("|"), 365)
-  createCookie(startingBalanceCookieKey, document.getElementById(startingBalanceId).value, 365)
-  createCookie(timeOffRateCookieKey, document.getElementById(timeoffRateId).value, 365)
-  createCookie("days-off-planner-version", "1.0", 365)
+  createCookie(timeOffCookieKey, timeOffDays.join("|"))
+  createCookie(holidaysCookieKey, holidays.join("|"))
+  createCookie(pinnedBalanceValueId, document.getElementById(pinnedBalanceValueId).value)
+  createCookie(timeOffRateCookieKey, document.getElementById(timeoffRateId).value)
+  createCookie("days-off-planner-version", "1.1")
 }
 
 function toggleHolidayList() {
@@ -255,34 +262,6 @@ function toggleHolidayList() {
   } else {
     div.style.display = "none"
   }
-}
-
-
-function loadFromCookies() {
-  let timeOffFromCookie = getCookie(timeOffCookieKey).split("|");
-  console.log(timeOffFromCookie);
-  for (let i = 0; i < timeOffFromCookie.length; i += 1) {
-    if (timeOffFromCookie[i] == '') {
-      continue
-    }
-    addTimeoff(timeOffFromCookie[i])
-  }
-  let holidaysFromCookie = getCookie(holidaysCookieKey).split("|");
-  console.log(holidaysFromCookie);
-  for (let i = 0; i < holidaysFromCookie.length; i += 1) {
-    if (holidaysFromCookie[i] == '') {
-      continue
-    }
-    addHoliday(holidaysFromCookie[i])
-  }
-
-  document.getElementById(startingBalanceId).value = Number(getCookie(startingBalanceCookieKey))
-  let timeOffRateFromCookie = Number(getCookie(timeOffRateCookieKey));
-  if (timeOffRateFromCookie != 0.0) {
-    document.getElementById(timeoffRateId).value = timeOffRateFromCookie
-  }
-
-  reloadGraph()
 }
 
 function start() {
@@ -358,7 +337,49 @@ function start() {
     annualDay.setMonth(annualDay.getMonth() + 1);
   }
 
-  loadFromCookies();
+  let timeOffFromCookie = getCookie(timeOffCookieKey).split("|");
+  for (let i = 0; i < timeOffFromCookie.length; i += 1) {
+    if (timeOffFromCookie[i] == '') {
+      continue
+    }
+    addTimeoff(timeOffFromCookie[i])
+  }
+  let holidaysFromCookie = getCookie(holidaysCookieKey).split("|");
+  for (let i = 0; i < holidaysFromCookie.length; i += 1) {
+    if (holidaysFromCookie[i] == '') {
+      continue
+    }
+    addHoliday(holidaysFromCookie[i])
+  }
+
+  let pinnedDateIso = getCookie(pinnedBalanceDateId);
+  let pinnedDate = new Date(pinnedDateIso);
+  if (pinnedDateIso == "") {
+    createCookie(pinnedBalanceDateId, new Date().toISOString().split("T")[0]);
+    
+    // TODO: Cookies don't work when loading site from file, so not loading from cookie here.
+    pinnedDate = new Date(); 
+  }
+
+  let pinnedValue = Number(getCookie(pinnedBalanceValueId));
+  if (isNaN(pinnedValue)) {
+    // If there's no cookie, use site default.
+    pinnedValue = document.getElementById(pinnedBalanceValueId).value;
+  }
+
+  let timeOffRate = parseFloat(getCookie(timeOffRateCookieKey))
+  if (isNaN(timeOffRate)) {
+    timeOffRate = document.getElementById(timeoffRateId).value/365.0;
+    createCookie(timeOffRateCookieKey, timeOffRate);
+  }
+  document.getElementById(pinnedBalanceValueId).value = DaysBetween(pinnedDate, new Date()) * timeOffRate + pinnedValue;
+
+  reloadGraph();
+}
+
+function currentBalanceChanged() {
+  createCookie(pinnedBalanceDateId, new Date().toISOString().split("T")[0]);
+  reloadGraph();
 }
 
 Chart.defaults.color = '#000';
@@ -373,4 +394,5 @@ console.log("             | x | x | x |")
 console.log("             -------------")
 console.log("      https://gannonbarnett.com/")
 console.log("")
+
 
