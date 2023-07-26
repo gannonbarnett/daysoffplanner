@@ -129,7 +129,6 @@ function addHoliday(date) {
 function createCookie(name, value) {
   var later = new Date(); later.setFullYear(later.getFullYear() + 10)
   document.cookie = `${name}=${value}; expires=${later.toUTCString()}; path=/`
-  console.log(`${name}=${value}; expires=${later.toUTCString()}; path=/`)
 }
 
 function getCookie(name) {
@@ -343,11 +342,19 @@ function start() {
 
   let timeOffFromCookie = getCookie(timeOffCookieKey).split("|");
   for (let i = 0; i < timeOffFromCookie.length; i += 1) {
-    addTimeoff(timeOffFromCookie[i])
+    let date = timeOffFromCookie[i];
+    if (date == '') {
+      continue;
+    }
+    addTimeoff(date);
   }
   let holidaysFromCookie = getCookie(holidaysCookieKey).split("|");
   for (let i = 0; i < holidaysFromCookie.length; i += 1) {
-    addHoliday(holidaysFromCookie[i])
+    let date = holidaysFromCookie[i];
+    if (date == '') {
+      continue;
+    }
+    addHoliday(date);
   }
 
   let pinnedDateIso = getCookie(pinnedBalanceDateId);
