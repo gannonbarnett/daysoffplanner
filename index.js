@@ -367,6 +367,7 @@ function start() {
     // If there's no cookie, use site default.
     pinnedValue = document.getElementById(pinnedBalanceValueId).value;
   }
+  document.getElementById(pinnedBalanceValueId).value = DaysBetween(pinnedDate, new Date()) * timeOffRate + pinnedValue;
 
   let timeOffRate = parseFloat(getCookie(timeOffRateCookieKey))
   if (isNaN(timeOffRate)) {
@@ -374,7 +375,7 @@ function start() {
     timeOffRate = document.getElementById(timeoffRateId).value/365.0;
     createCookie(timeOffRateCookieKey, timeOffRate);
   }
-  document.getElementById(pinnedBalanceValueId).value = DaysBetween(pinnedDate, new Date()) * timeOffRate + pinnedValue;
+  document.getElementById(timeoffRateId).value = timeOffRate*365.0;
 
   reloadGraph();
 }
