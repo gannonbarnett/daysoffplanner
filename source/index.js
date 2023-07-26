@@ -1,4 +1,4 @@
-const version = 1.2;
+const version = 1.3;
 
 const MonthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
 
@@ -370,7 +370,7 @@ function start() {
     timeOffRate = document.getElementById(timeoffRateId).value/365.0;
     createCookie(timeOffRateCookieKey, timeOffRate);
   }
-  document.getElementById(timeoffRateId).value = timeOffRate*365.0;
+  document.getElementById(timeoffRateId).value = timeOffRate;
 
   let pinnedValue = Number(getCookie(pinnedBalanceValueId));
   if (isNaN(pinnedValue)) {
