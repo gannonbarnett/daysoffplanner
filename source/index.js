@@ -364,13 +364,6 @@ function start() {
     pinnedDate = new Date(); 
   }
 
-  let pinnedValue = Number(getCookie(pinnedBalanceValueId));
-  if (isNaN(pinnedValue)) {
-    // If there's no cookie, use site default.
-    pinnedValue = document.getElementById(pinnedBalanceValueId).value;
-  }
-  document.getElementById(pinnedBalanceValueId).value = DaysBetween(pinnedDate, new Date()) * timeOffRate + pinnedValue;
-
   let timeOffRate = parseFloat(getCookie(timeOffRateCookieKey))
   if (isNaN(timeOffRate)) {
     console.log(`Timeoff rate not found in cookie, using default. ${timeOffRate} ${getCookie(timeOffRateCookieKey)}}`)
@@ -378,6 +371,13 @@ function start() {
     createCookie(timeOffRateCookieKey, timeOffRate);
   }
   document.getElementById(timeoffRateId).value = timeOffRate*365.0;
+
+  let pinnedValue = Number(getCookie(pinnedBalanceValueId));
+  if (isNaN(pinnedValue)) {
+    // If there's no cookie, use site default.
+    pinnedValue = document.getElementById(pinnedBalanceValueId).value;
+  }
+  document.getElementById(pinnedBalanceValueId).value = DaysBetween(pinnedDate, new Date()) * timeOffRate + pinnedValue;
 
   reloadGraph();
 }
