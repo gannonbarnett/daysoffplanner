@@ -370,6 +370,7 @@ function start() {
 
   let timeOffRate = parseFloat(getCookie(timeOffRateCookieKey))
   if (isNaN(timeOffRate)) {
+    console.log(`Timeoff rate not found in cookie, using default. ${timeOffRate} ${getCookie(timeOffRateCookieKey)}}`)
     timeOffRate = document.getElementById(timeoffRateId).value/365.0;
     createCookie(timeOffRateCookieKey, timeOffRate);
   }
