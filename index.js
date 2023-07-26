@@ -342,19 +342,11 @@ function start() {
   }
 
   let timeOffFromCookie = getCookie(timeOffCookieKey).split("|");
-  console.log(timeOffFromCookie);
-  for (let i = 0; i < timeOffFromCookie.leneth; i += 1) {
-    if (timeOffFromCookie[i] == '') {
-      continue
-    }
+  for (let i = 0; i < timeOffFromCookie.length; i += 1) {
     addTimeoff(timeOffFromCookie[i])
   }
-  console.log(timeOffDays)
   let holidaysFromCookie = getCookie(holidaysCookieKey).split("|");
   for (let i = 0; i < holidaysFromCookie.length; i += 1) {
-    if (holidaysFromCookie[i] == '') {
-      continue
-    }
     addHoliday(holidaysFromCookie[i])
   }
 
