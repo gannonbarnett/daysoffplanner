@@ -63,7 +63,6 @@ const timeOffCookieKey = "timeOffDays"
 const holidaysCookieKey = "holidays"
 const timeOffRateCookieKey = "timeOffRate"
 
-
 var mainChart = null
 
 function toggleHoliday(date) {
@@ -125,11 +124,9 @@ function addHoliday(date) {
   return false
 }
 
-// Cookies
 function createCookie(name, value) {
   var later = new Date(); later.setFullYear(later.getFullYear() + 10)
   document.cookie = `${name}=${value}; expires=${later.toUTCString()}; path=/`
-  console.log(`${name}=${value}; expires=${later.toUTCString()}; path=/`)
 }
 
 function getCookie(name) {
@@ -155,7 +152,7 @@ function reloadGraph() {
   let labels = []
   let values = []
 
-  let balanceHrs = parseFloat(document.getElementById(pinnedBalanceValueId).value)
+  let balanceHrs = parseFloat(document.getElementById(pinnedBalanceValueId).value)*8.0
 
   let timeoffRateHrs = parseFloat(document.getElementById(timeoffRateId).value) * 8 / 26 
 
