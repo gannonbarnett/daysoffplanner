@@ -127,8 +127,9 @@ function addHoliday(date) {
 
 // Cookies
 function createCookie(name, value) {
-  var now = new Date();
-  document.cookie = `${name}=${value}; expires=${(new Date()).setFullYear(now.getFullYear() + 10)}; path=/`
+  var later = new Date(); later.setFullYear(later.getFullYear() + 10)
+  document.cookie = `${name}=${value}; expires=${later.toUTCString()}; path=/`
+  console.log(`${name}=${value}; expires=${later.toUTCString()}; path=/`)
 }
 
 function getCookie(name) {
