@@ -129,6 +129,7 @@ function addHoliday(date) {
 function createCookie(name, value) {
   var later = new Date(); later.setFullYear(later.getFullYear() + 10)
   document.cookie = `${name}=${value}; expires=${later.toUTCString()}; path=/`
+  console.log(`${name}=${value}; expires=${later.toUTCString()}; path=/`)
 }
 
 function getCookie(name) {
@@ -341,12 +342,14 @@ function start() {
   }
 
   let timeOffFromCookie = getCookie(timeOffCookieKey).split("|");
+  console.log(timeOffFromCookie);
   for (let i = 0; i < timeOffFromCookie.leneth; i += 1) {
     if (timeOffFromCookie[i] == '') {
       continue
     }
     addTimeoff(timeOffFromCookie[i])
   }
+  console.log(timeOffDays)
   let holidaysFromCookie = getCookie(holidaysCookieKey).split("|");
   for (let i = 0; i < holidaysFromCookie.length; i += 1) {
     if (holidaysFromCookie[i] == '') {
