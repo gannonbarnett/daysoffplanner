@@ -146,6 +146,9 @@ function getCookie(name) {
 }
 
 function reloadGraph() {
+  let thisWeek = new Date();
+  thisWeek.setDate(thisWeek.getDate() - thisWeek.getDay());
+
   let ymax = 0
   let ymin = 0
 
@@ -161,6 +164,10 @@ function reloadGraph() {
   for (var i = 0; i < days.length; i += 1) {
     let day = days[i]
     let date = new Date(day.id)
+
+    if (date < thisWeek) {
+      continue
+    }
 
     if (date.getDay() == 5) { // Friday 
       if (twoWeeksPassed) {
@@ -263,11 +270,7 @@ function toggleHolidayList() {
 }
 
 function start() {
-  var now = new Date();
-  document.getElementById("year-span").innerHTML = now.getFullYear();
-
   var startDay = new Date();
-  startDay.setDate(1);
   var endDay = new Date();
   endDay.setFullYear(startDay.getFullYear() + 1); 
   for (var i = 0; i < holidayDates.length; i++) {
@@ -324,7 +327,7 @@ function start() {
       monthDayLi.style = `grid-column-start: ${monthDay.getDay() + 1}`
       monthDayLi.innerHTML = `${monthDay.getDate()}`;
 
-      if (monthDay < now) {
+      if (monthDay < startDay) {
         monthDayLi.classList.add("past")
       }
 
@@ -336,7 +339,7 @@ function start() {
   }
 
   let timeOffFromCookie = getCookie(timeOffCookieKey).split("|");
-  for (let i = 0; i < timeOffFromCookie.length; i += 1) {
+  for (let i = 0; i < timeOffFromCookie.leneth; i += 1) {
     if (timeOffFromCookie[i] == '') {
       continue
     }
