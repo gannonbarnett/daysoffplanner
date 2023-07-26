@@ -159,7 +159,7 @@ function reloadGraph() {
 
   let balanceHrs = parseFloat(document.getElementById(pinnedBalanceValueId).value)*8.0
 
-  let timeoffRateHrs = parseFloat(document.getElementById(timeoffRateId).value) * 8 / 26 
+  let timeoffRateHrsPerTwoWeeks = parseFloat(document.getElementById(timeoffRateId).value) / 365 * 14 * 8
 
   let days = document.getElementsByClassName("day")
   let twoWeeksPassed = false;
@@ -173,7 +173,7 @@ function reloadGraph() {
 
     if (date.getDay() == 5) { // Friday 
       if (twoWeeksPassed) {
-        balanceHrs += timeoffRateHrs
+        balanceHrs += timeoffRateHrsPerTwoWeeks
         twoWeeksPassed = false;
       } else {
         twoWeeksPassed = true;
@@ -364,20 +364,19 @@ function start() {
     pinnedDate = new Date(); 
   }
 
-  let timeOffRate = parseFloat(getCookie(timeOffRateCookieKey))
-  if (isNaN(timeOffRate)) {
-    console.log(`Timeoff rate not found in cookie, using default. ${timeOffRate} ${getCookie(timeOffRateCookieKey)}}`)
-    timeOffRate = document.getElementById(timeoffRateId).value/365.0;
-    createCookie(timeOffRateCookieKey, timeOffRate);
+  let timeOffDaysPerYear = parseFloat(getCookie(timeOffRateCookieKey))
+  if (isNaN(timeOffDaysPerYear)) {
+    timeOffDaysPerYear = document.getElementById(timeoffRateId).value;
+    createCookie(timeOffRateCookieKey, timeOffDaysPerYear);
   }
-  document.getElementById(timeoffRateId).value = timeOffRate;
+  document.getElementById(timeoffRateId).value = timeOffDaysPerYear;
 
   let pinnedValue = Number(getCookie(pinnedBalanceValueId));
   if (isNaN(pinnedValue)) {
     // If there's no cookie, use site default.
     pinnedValue = document.getElementById(pinnedBalanceValueId).value;
   }
-  document.getElementById(pinnedBalanceValueId).value = DaysBetween(pinnedDate, new Date()) * timeOffRate + pinnedValue;
+  document.getElementById(pinnedBalanceValueId).value = DaysBetween(pinnedDate, new Date()) * (timeOffDaysPerYear/365.0) + pinnedValue;
 
   reloadGraph();
 }
