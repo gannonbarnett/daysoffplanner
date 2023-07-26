@@ -1,3 +1,5 @@
+const version = 1.2;
+
 const MonthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
 
 const holidayDates = [
@@ -257,7 +259,7 @@ function reloadGraph() {
   createCookie(holidaysCookieKey, holidays.join("|"))
   createCookie(pinnedBalanceValueId, document.getElementById(pinnedBalanceValueId).value)
   createCookie(timeOffRateCookieKey, document.getElementById(timeoffRateId).value)
-  createCookie("days-off-planner-version", "1.1")
+  createCookie("days-off-planner-version", version)
 }
 
 function toggleHolidayList() {
@@ -397,5 +399,6 @@ console.log("             | x | x | x |")
 console.log("             -------------")
 console.log("      https://gannonbarnett.com/")
 console.log("")
+console.log(`      Days Off Planner v${version}`)
 
 
