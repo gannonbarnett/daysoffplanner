@@ -9,3 +9,6 @@ Open `index.html` in your browser.
 
 ## Deploy
 Run `deploy.sh`.
+
+## Monitor
+https://analytics.google.com/analytics/web/#/p368862830/reports/intelligenthome
