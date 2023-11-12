@@ -1,7 +1,7 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js'
 import { getAnalytics } from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-analytics.js'
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js'
-import { getFirestore, doc, onSnapshot, setDoc, getDoc, addDoc, collection } from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js'
+import { getFirestore, doc, onSnapshot, setDoc, getDoc, addDoc, deleteDoc, collection } from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js'
 
 // Make password field submit form on enter.
 document.getElementById("password").addEventListener("keypress", function(event) {
@@ -34,7 +34,7 @@ onAuthStateChanged(auth, (user) => {
     currentUser = user;
     document.getElementById("signInOrCreate").onclick = signInOrCreate;
     document.getElementById("sign-out-button").onclick = trySignOut;
-    document.getElementById("unsubscribe-button").onclick = unsubscribe;
+    document.getElementById("unsubscribe-confirm").onclick = unsubscribe;
     if (user) {
         [...document.getElementsByClassName("hide-logged-in")].forEach(el => {
             el.style.display = "none";
@@ -116,6 +116,12 @@ function signInOrCreate() {
     });
 }
 
+function unsubscribe() {
+    if (currentUser) {
+        deleteDoc(doc(db, "customers", currentUser.uid));
+    }
+}
+
 async function updateActiveSubscription(callback) {
     onSnapshot(collection(db, "customers", currentUser.uid, "subscriptions"), (snap) => {
         if (snap.empty || snap.docs[0].active == false) {
@@ -152,10 +158,6 @@ function trySignOut() {
     }).catch((error) => {
         console.log(error);
     });
-}
-
-function unsubscribe() {
-    console.log("unsubscribe unimplemented");
 }
 
 async function loadData() {

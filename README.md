@@ -19,5 +19,8 @@ https://dashboard.stripe.com/dashboard
 [x] Stripe integration: https://console.firebase.google.com/project/daysoffplanner/extensions/instances/firestore-stripe-payments?tab=usage
 [x] Save, load days in firestore DB
 [x] Remove cookie caching
-[] Implement unsubscribe
-[] Mobile support
+[x] Implement unsubscribe
+[] Current balance broken
+[] Loading page before signin
+[] Loading page before subscription
+[] Mobile support or mobile unsupported page
