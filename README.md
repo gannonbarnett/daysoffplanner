@@ -20,3 +20,4 @@ https://dashboard.stripe.com/dashboard
 [] Save, load days in firestore DB
 [] Remove cookie caching
 [] Implement unsubscribe
+[] Mobile support
