@@ -1,0 +1,95 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+header {
+    background-color: #3498db;
+    color: #fff;
+    text-align: center;
+    padding: 0.5rem 0;
+}
+
+section {
+    display: flex;
+    justify-content: space-around;
+    padding: 0.5rem 2rem;
+    text-align: center;
+}
+
+.panel {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    flex: 1;
+}
+
+.panel:hover {
+    transform: scale(1.05);
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+}
+
+p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: #2ecc71;
+    color: #fff;
+    padding: 1rem 2rem;
+    text-decoration: none;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #27ae60;
+}
+
+.demo-image-section {
+    text-align: center;
+}
+
+.demo-image {
+    width:80%;
+    text-align: center;
+}
+
+footer {
+    background-color: #34495e;
+    color: #fff;
+    text-align: center;
+    padding: 1rem 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+@keyframes swapCompany {
+    10% { transform: translateX(150%); }
+    25% { transform: translateX(0); }
+    75% { transform: translateX(0); }
+    90% { transform: translateX(-150%); }
+}
+
+.company-name {
+    display: inline-block;
+    white-space: nowrap; /* Prevent line breaks */
+    overflow: hidden; /* Hide overflowing content */
+    /* animation: swapCompany 5s infinite; */
+}
