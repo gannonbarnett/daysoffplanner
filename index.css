@@ -11,14 +11,20 @@ body {
   background-color: white;
   color: #1c1e21;
   cursor: default;
-  margin:0px;
+  margin: 0px;
   display: block;
-  -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Old versions of Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Old versions of Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 
@@ -39,21 +45,26 @@ input {
 
 .header-div {
   background-color: white;
-  padding-top:13px;
+  padding-top: 13px;
   padding-bottom: 13px;
   padding-left: 20px;
   padding-right: 20px;
   border-radius: 3px;
-  box-shadow: 0px 3px 4px 0px rgba(0,0,0,0.2);
-  align-items:center
+  box-shadow: 0px 3px 4px 0px rgba(0, 0, 0, 0.2);
+  align-items: center
 }
 
 .non-header-div {
-  -webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
-  -moz-box-flex: 1; /* OLD - Firefox 19- */
-  -webkit-flex: 1; /* Chrome */
-  -ms-flex: 1; /* IE 10 */
-  flex: 1; /* NEW, */
+  -webkit-box-flex: 1;
+  /* OLD - iOS 6-, Safari 3.1-6 */
+  -moz-box-flex: 1;
+  /* OLD - Firefox 19- */
+  -webkit-flex: 1;
+  /* Chrome */
+  -ms-flex: 1;
+  /* IE 10 */
+  flex: 1;
+  /* NEW, */
   overflow: auto;
 }
 
@@ -92,11 +103,11 @@ input {
   display: none;
   position: absolute;
   background-color: white;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
   text-align: center;
   overflow: auto;
-  max-height:50%;
+  max-height: 50%;
 }
 
 .holidays-div:hover .holidays-content-div {
@@ -104,7 +115,7 @@ input {
 }
 
 .holidays-button-div {
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .holidays-button-selected {
@@ -148,7 +159,7 @@ input {
 
 .day-name {
   background-color: #EFEFEF;
-  color:#1c1e21;
+  color: #1c1e21;
   opacity: 0.8;
 }
 
@@ -184,13 +195,13 @@ input {
   padding-left: 8px;
   padding-right: 8px;
 
-  box-shadow: 0px -2px 4px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px -2px 4px 0px rgba(0, 0, 0, 0.2);
 }
 
 .subscribe-horizontal {
   width: 25%;
   height: 100%;
-  background-color: lightblue;
+  background-color: lightcoral;
   position: fixed;
   top: 0;
   left: 0;
@@ -198,13 +209,49 @@ input {
 }
 
 .subscribe-body {
-  width:100%;
+  width: 100%;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  text-align: center;
 }
 
 .main-horizontal {
   width: 75%;
+}
+
+/* login */
+.login-container {
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 8px;
+  margin: 10px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.form-group button {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
