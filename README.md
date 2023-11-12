@@ -15,3 +15,5 @@ https://analytics.google.com/analytics/web/#/p368862830/reports/intelligenthome
 
 https://dashboard.stripe.com/dashboard
 
+
+Working on https://console.firebase.google.com/project/daysoffplanner/extensions/instances/firestore-stripe-payments?tab=usage
