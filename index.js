@@ -48,6 +48,10 @@ onAuthStateChanged(auth, (user) => {
         document.getElementById("password").value = "";
         console.log("logged in");
         updateActiveSubscription(() => {
+            console.log("HERE")
+            if (!activeSubscription) {
+                subscribe();
+            }
             loadData();
         });
     } else {
@@ -124,6 +128,7 @@ function unsubscribe() {
 
 async function updateActiveSubscription(callback) {
     onSnapshot(collection(db, "customers", currentUser.uid, "subscriptions"), (snap) => {
+        console.log(snap.docs[0])
         if (snap.empty || snap.docs[0].active == false) {
             activeSubscription = false;
         } else {
@@ -134,6 +139,7 @@ async function updateActiveSubscription(callback) {
 }
 
 async function subscribe() {
+    console.log("subscribe()");
     await addDoc(collection(db, "customers", currentUser.uid, "checkout_sessions"), {
         price: 'price_1OBhrQCt7GABVsng1OXdxYhs', // price_1OBWbwCt7GABVsngXs9v9SnX
         success_url: window.location.origin,
@@ -141,7 +147,7 @@ async function subscribe() {
     });
 
     onSnapshot(collection(db, "customers", currentUser.uid, "checkout_sessions"), (snap) => {
-        const { error, url } = snaps.docs[0].data();
+        const { error, url } = snap.docs[0].data();
         if (error) {
             alert(`An error occured: ${error.message}`);
             console.log(error);
@@ -163,8 +169,12 @@ function trySignOut() {
 async function loadData() {
     if (currentUser) {
         if (!activeSubscription) {
-            updateActiveSubscription(() => { });
-            console.log("No active sub")
+            updateActiveSubscription(() => {
+                if (!activeSubscription) {
+                    console.log("No active sub")
+                    subscribe();
+                }
+            });
             return;
         }
 
@@ -202,7 +212,12 @@ async function saveData(
 ) {
     if (currentUser) {
         if (!activeSubscription) {
-            updateActiveSubscription(() => { });
+            updateActiveSubscription(() => {
+                if (!activeSubscription) {
+                    console.log("No active sub")
+                    subscribe();
+                }
+            });
             return;
         }
 
