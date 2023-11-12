@@ -1,4 +1,4 @@
-const version = 1.4;
+const version = 2.0;
 
 const MonthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
 
