@@ -1,3 +1,209 @@
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js'
+import { getAnalytics } from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-analytics.js'
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js'
+import { getFirestore, doc, onSnapshot, setDoc, getDoc, addDoc, collection } from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js'
+
+const firebaseConfig = {
+    apiKey: "AIzaSyAOxa1tqQgoTPgswVW-7mTQBEfiYVrL2mI",
+    authDomain: "daysoffplanner.firebaseapp.com",
+    projectId: "daysoffplanner",
+    storageBucket: "daysoffplanner.appspot.com",
+    messagingSenderId: "999511004889",
+    appId: "1:999511004889:web:eb57c65f29eeffb97bd0c8",
+    measurementId: "G-6CX91Q6S19"
+};
+
+export const app = initializeApp(firebaseConfig);
+export const analytics = getAnalytics(app);
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+
+var currentUser = null;
+var activeSubscription = false;
+var hasLoadedData = false;
+
+onAuthStateChanged(auth, (user) => {
+    currentUser = user;
+    document.getElementById("signInOrCreate").onclick = signInOrCreate;
+    document.getElementById("sign-out-button").onclick = trySignOut;
+    document.getElementById("unsubscribe-button").onclick = unsubscribe;
+    if (user) {
+        [...document.getElementsByClassName("hide-logged-in")].forEach(el => {
+            el.style.display = "none";
+        });
+        [...document.getElementsByClassName("hide-logged-out")].forEach(el => {
+            el.style.display = "inherit";
+        });
+        document.getElementById("container").style.marginLeft = "0%";
+        document.getElementById("container").style.width = "100%";
+
+        document.getElementById("password").value = "";
+        console.log("logged in");
+        updateActiveSubscription(() => {
+            loadData();
+        });
+    } else {
+        [...document.getElementsByClassName("hide-logged-in")].forEach(el => {
+            el.style.display = "inherit";
+        });
+        [...document.getElementsByClassName("hide-logged-out")].forEach(el => {
+            el.style.display = "none";
+        });
+        document.getElementById("container").style.marginLeft = "25%";
+        document.getElementById("container").style.width = "75%";
+    }
+});
+
+function setSignInState(loading) {
+    if (loading) {
+        document.getElementById("signInOrCreateText").style.display = "none";
+        document.getElementById("signInOrCreateLoading").style.display = "inherit";
+    } else {
+        document.getElementById("signInOrCreateText").style.display = "inherit";
+        document.getElementById("signInOrCreateLoading").style.display = "none";
+        document.getElementById("password").value = "";
+    }
+}
+
+function firebaseErrorCodeToString(error) {
+    console.log(error);
+    switch (error) {
+        case "auth/invalid-email":
+            return "Valid email required";
+        case "auth/missing-password":
+            return "Password required";
+        case "auth/weak-password":
+            return "Need a stronger password";
+        case "auth/email-already-in-use":
+            return "Invalid email or password";
+        case "auth/too-many-requests":
+            return "Try again in a few minutes, cowboy";
+        default:
+            return error;
+    }
+}
+
+function signInOrCreate() {
+    document.getElementById("error-message").innerHTML = "";
+    setSignInState(true);
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
+        const user = userCredential.user;
+        setSignInState(false);
+        updateActiveSubscription(() => {
+            if (!activeSubscription) {
+                subscribe();
+            }
+        })
+    }).catch((_) => {
+        createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
+            currentUser = userCredential.user;
+            setSignInState(false);
+            subscribe();
+        }).catch((error) => {
+            document.getElementById("error-message").innerHTML = firebaseErrorCodeToString(error.code);
+            setSignInState(false);
+        });
+    });
+}
+
+async function updateActiveSubscription(callback) {
+    onSnapshot(collection(db, "customers", currentUser.uid, "subscriptions"), (snap) => {
+        if (snap.empty || snap.docs[0].active == false) {
+            activeSubscription = false;
+        } else {
+            activeSubscription = true;
+        }
+        callback();
+    });
+}
+
+async function subscribe() {
+    await addDoc(collection(db, "customers", currentUser.uid, "checkout_sessions"), {
+        price: 'price_1OBhrQCt7GABVsng1OXdxYhs', // price_1OBWbwCt7GABVsngXs9v9SnX
+        success_url: window.location.origin,
+        cancel_url: window.location.origin,
+    });
+
+    onSnapshot(collection(db, "customers", currentUser.uid, "checkout_sessions"), (snap) => {
+        const { error, url } = snaps.docs[0].data();
+        if (error) {
+            alert(`An error occured: ${error.message}`);
+            console.log(error);
+        }
+        if (url) {
+            window.location.assign(url);
+        }
+    });
+}
+
+function trySignOut() {
+    signOut(auth).then(() => {
+        console.log("signed out");
+    }).catch((error) => {
+        console.log(error);
+    });
+}
+
+function unsubscribe() {
+    console.log("unsubscribe unimplemented");
+}
+
+async function loadData() {
+    if (currentUser) {
+        if (!activeSubscription) {
+            updateActiveSubscription(() => { });
+            console.log("No active sub")
+            return;
+        }
+
+        const docRef = doc(db, "customers", currentUser.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            for (let i = 0; i < docSnap.data().timeOffDays.length; i += 1) {
+                let date = docSnap.data().timeOffDays[i];
+                if (date == '') {
+                    continue;
+                }
+                addTimeoff(date);
+            }
+            for (let i = 0; i < docSnap.data().holidays.length; i += 1) {
+                let date = docSnap.data().holidays[i];
+                if (date == '') {
+                    continue;
+                }
+                addHoliday(date);
+            }
+
+            document.getElementById(timeoffRateId).value = docSnap.data().timeOffRate;
+
+            hasLoadedData = true;
+            console.log("hasLoadedData = true");
+            reloadGraph();
+        }
+    }
+}
+
+async function saveData(
+    holidays,
+    timeOffDays,
+    timeOffRate,
+) {
+    if (currentUser) {
+        if (!activeSubscription) {
+            updateActiveSubscription(() => { });
+            return;
+        }
+
+        await setDoc(doc(db, "customers", currentUser.uid), {
+            "holidays": holidays,
+            "timeOffDays": timeOffDays,
+            "timeOffRate": timeOffRate,
+        }, { merge: true });
+    }
+}
+
 const version = 2.0;
 
 const MonthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -60,10 +266,6 @@ const timeoffRateId = "timeoff-rate"
 // Value and date represent a reference point for the current balance.
 const pinnedBalanceValueId = "pinned-balance-value"
 const pinnedBalanceDateId = "pinned-balance-date"
-
-const timeOffCookieKey = "timeOffDays"
-const holidaysCookieKey = "holidays"
-const timeOffRateCookieKey = "timeOffRate"
 
 var mainChart = null
 
@@ -147,7 +349,8 @@ function getCookie(name) {
     return "";
 }
 
-function reloadGraph() {
+async function reloadGraph() {
+    console.log("reloadGraph()");
     let thisWeek = new Date();
     thisWeek.setDate(thisWeek.getDate() - thisWeek.getDay());
 
@@ -184,7 +387,7 @@ function reloadGraph() {
             balanceHrs -= 8.0
         }
 
-        balanceDays = balanceHrs / 8.0
+        let balanceDays = balanceHrs / 8.0
         if (balanceDays > ymax) {
             ymax = balanceDays
         }
@@ -255,11 +458,18 @@ function reloadGraph() {
         mainChart.update();
     }
 
-    createCookie(timeOffCookieKey, timeOffDays.join("|"))
-    createCookie(holidaysCookieKey, holidays.join("|"))
-    createCookie(pinnedBalanceValueId, document.getElementById(pinnedBalanceValueId).value)
-    createCookie(timeOffRateCookieKey, document.getElementById(timeoffRateId).value)
-    createCookie("days-off-planner-version", version)
+    if (hasLoadedData) {
+        saveData(
+            holidays,
+            timeOffDays,
+            document.getElementById(timeoffRateId).value,
+        );
+    }
+    // createCookie(timeOffCookieKey, timeOffDays.join("|"))
+    // createCookie(holidaysCookieKey, holidays.join("|"))
+    // createCookie(pinnedBalanceValueId, document.getElementById(pinnedBalanceValueId).value)
+    // createCookie(timeOffRateCookieKey, document.getElementById(timeoffRateId).value)
+    // createCookie("days-off-planner-version", version)
 }
 
 function toggleHolidayList() {
@@ -271,7 +481,7 @@ function toggleHolidayList() {
     }
 }
 
-function start() {
+async function start() {
     var startDay = new Date();
     var endDay = new Date();
     endDay.setFullYear(startDay.getFullYear() + 1);
@@ -340,45 +550,21 @@ function start() {
         annualDay.setMonth(annualDay.getMonth() + 1);
     }
 
-    let timeOffFromCookie = getCookie(timeOffCookieKey).split("|");
-    for (let i = 0; i < timeOffFromCookie.length; i += 1) {
-        let date = timeOffFromCookie[i];
-        if (date == '') {
-            continue;
-        }
-        addTimeoff(date);
-    }
-    let holidaysFromCookie = getCookie(holidaysCookieKey).split("|");
-    for (let i = 0; i < holidaysFromCookie.length; i += 1) {
-        let date = holidaysFromCookie[i];
-        if (date == '') {
-            continue;
-        }
-        addHoliday(date);
-    }
+    // let pinnedDateIso = getCookie(pinnedBalanceDateId);
+    // let pinnedDate = new Date(pinnedDateIso);
+    // if (pinnedDateIso == "") {
+    //     createCookie(pinnedBalanceDateId, new Date().toISOString().split("T")[0]);
 
-    let pinnedDateIso = getCookie(pinnedBalanceDateId);
-    let pinnedDate = new Date(pinnedDateIso);
-    if (pinnedDateIso == "") {
-        createCookie(pinnedBalanceDateId, new Date().toISOString().split("T")[0]);
+    //     // TODO: Cookies don't work when loading site from file, so not loading from cookie here.
+    //     pinnedDate = new Date();
+    // }
 
-        // TODO: Cookies don't work when loading site from file, so not loading from cookie here.
-        pinnedDate = new Date();
-    }
-
-    let timeOffDaysPerYear = parseFloat(getCookie(timeOffRateCookieKey))
-    if (isNaN(timeOffDaysPerYear)) {
-        timeOffDaysPerYear = document.getElementById(timeoffRateId).value;
-        createCookie(timeOffRateCookieKey, timeOffDaysPerYear);
-    }
-    document.getElementById(timeoffRateId).value = timeOffDaysPerYear;
-
-    let pinnedValue = Number(getCookie(pinnedBalanceValueId));
-    if (isNaN(pinnedValue)) {
-        // If there's no cookie, use site default.
-        pinnedValue = document.getElementById(pinnedBalanceValueId).value;
-    }
-    document.getElementById(pinnedBalanceValueId).value = DaysBetween(pinnedDate, new Date()) * (timeOffDaysPerYear / 365.0) + pinnedValue;
+    // let pinnedValue = Number(getCookie(pinnedBalanceValueId));
+    // if (isNaN(pinnedValue)) {
+    //     // If there's no cookie, use site default.
+    //     pinnedValue = document.getElementById(pinnedBalanceValueId).value;
+    // }
+    // document.getElementById(pinnedBalanceValueId).value = DaysBetween(pinnedDate, new Date()) * (timeOffDaysPerYear / 365.0) + pinnedValue;
 
     reloadGraph();
 }
@@ -401,5 +587,3 @@ console.log("             -------------")
 console.log("      https://gannonbarnett.com/")
 console.log("")
 console.log(`      Days Off Planner v${version}`)
-
-
