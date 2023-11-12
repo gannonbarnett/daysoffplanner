@@ -3,6 +3,14 @@ import { getAnalytics } from 'https://www.gstatic.com/firebasejs/10.6.0/firebase
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js'
 import { getFirestore, doc, onSnapshot, setDoc, getDoc, addDoc, collection } from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js'
 
+// Make password field submit form on enter.
+document.getElementById("password").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      signInOrCreate();
+    }
+});
+
 const firebaseConfig = {
     apiKey: "AIzaSyAOxa1tqQgoTPgswVW-7mTQBEfiYVrL2mI",
     authDomain: "daysoffplanner.firebaseapp.com",
