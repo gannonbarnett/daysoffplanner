@@ -29,6 +29,8 @@ section {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease-in-out;
     flex: 1;
+    position: relative;
+
 }
 
 .panel:hover {
@@ -80,16 +82,66 @@ footer {
     width: 100%;
 }
 
-@keyframes swapCompany {
-    10% { transform: translateX(150%); }
-    25% { transform: translateX(0); }
-    75% { transform: translateX(0); }
-    90% { transform: translateX(-150%); }
-}
+.rotatingText-adjective { 
+    left: 0;
+    margin-bottom: 0;
+    margin-top: 90px;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 0;
+    
+    @media (min-width: 768px) { 
+      /* font-size: 70px; */
+    }
 
-.company-name {
-    display: inline-block;
-    white-space: nowrap; /* Prevent line breaks */
-    overflow: hidden; /* Hide overflowing content */
-    /* animation: swapCompany 5s infinite; */
-}
+    &:nth-of-type(1) { 
+      animation: rotate-text-up 1.5s .75s; 
+    }
+    
+    &:nth-of-type(2) { 
+      animation: rotate-text-up 1.5s 2s; 
+    } 
+    
+    &:nth-of-type(3) { 
+      animation: rotate-text-up 1.5s 3.25s forwards;
+    }
+
+    &:nth-of-type(4) { 
+      animation: rotate-text-up 1.5s 4.5s forwards;
+    }
+
+    &:nth-of-type(5) { 
+      animation: fade-text-in 1.5s 6s forwards;
+    }
+  }
+  
+  @keyframes rotate-text-up { 
+    0% {
+      transform: translate3d(0, 80px, 0);
+      opacity: 0;
+    }
+    
+    20%, 80% {
+      transform: translate3d(0, 0, 0);
+      opacity: 1;
+    }
+    
+    100% {
+      transform: translate3d(0, -40px, 0);
+      opacity: 0;
+    }
+  }
+  
+  @keyframes fade-text-in { 
+    0% {
+      opacity: 0;
+      transform: translate3d(0, 80px, 0);
+    }
+    
+    50%, 100% {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }

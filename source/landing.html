@@ -14,37 +14,38 @@
     <section>
         <div class="panel">
             <h2>Plan Ahead</h2>
-            <p>Easily schedule your vacation days according to your companies' schedule, and watch your vacation build.</p>
+            <p>Visualize how your vacation days will accrue throughout the year, and determine the best times to use them.</p>
         </div>
 
         <div class="panel">
-            <h2><span class="company-name">Company</span></h2>
-            <script>
-                // JavaScript to dynamically change company names
-                const companyNames = ["SpaceX", "Microsoft", "Google"];
-                let index = 0;
-                const companyNameElement = document.querySelector('.company-name');
-
-                function updateCompany() {
-                    const companyText = document.getElementById('selectedCompany');
-                    companyText.style.opacity = '0';
-
-                    setTimeout(() => {
-                        currentIndex = (currentIndex + 1) % companies.length;
-                        companyText.textContent = companies[currentIndex];
-                        companyText.style.opacity = '1';
-                    }, 500); // Change every 0.5 seconds
-                }
-
-                setInterval(updateCompany, 5000);
-            </script>
+            <h2> Import Holidays from 
+                <span class="rotatingText-adjective">Google</span>
+                <span class="rotatingText-adjective">Microsoft</span>
+                <span class="rotatingText-adjective">Amazon</span>
+                <span class="rotatingText-adjective">SpaceX</span>
+                <span class="rotatingText-adjective">Your company</span>
+            </h2>
+            </br>
+            </br>
             <p>Stay informed about company holidays with DaysOffPlanner's automatic integration. Save time and plan your days off without missing important dates.</p>
         </div>
 
         <div class="panel">
             <h2>Easily Save Your Plans</h2>
-            <p>Seamlessly export your planned time off to Google Calendar. Keep all your schedules in one place and access them wherever you go.</p>
+            <p>Seamlessly export your planned time off. Automatically update to and from your source</p>
         </div>
+    </section>
+    <section>
+        <h2>Sign Up</h2>
+        <form action="signup.php" method="post">
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" placeholder="Email" required>
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" placeholder="Password" required>
+            <label for="password">Confirm Password</label>
+            <input type="password" name="password" id="password" placeholder="Password" required>
+            <input type="submit" value="Sign Up">
+        </form>
     </section>
     <div class="demo-image-section">
         <img src="daysoffplanner-screenshot.png" alt="DaysOffPlanner" class="demo-image">
