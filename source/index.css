@@ -12,6 +12,7 @@ body {
   color: #1c1e21;
   cursor: default;
   margin:0px;
+  display: block;
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
      -khtml-user-select: none; /* Konqueror HTML */
@@ -185,5 +186,25 @@ input {
 
   box-shadow: 0px -2px 4px 0px rgba(0,0,0,0.2);
 }
-canvas{
+
+.subscribe-horizontal {
+  width: 25%;
+  height: 100%;
+  background-color: lightblue;
+  position: fixed;
+  top: 0;
+  left: 0;
+  text-align: center;
+}
+
+.subscribe-body {
+  width:100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.main-horizontal {
+  width: 75%;
 }

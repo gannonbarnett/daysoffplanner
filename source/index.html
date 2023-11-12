@@ -4,25 +4,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Days Off</title>
     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="common.css">
     <link rel="icon" href="icon.png">
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/chart.js@4.1.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.1.1"></script>
     <script src="index.js"></script>
     <script type="text/javascript"> var infolinks_pid = 3384269; var infolinks_wsid = 0; </script>
-    <script type="text/javascript"
-      src="//resources.infolinks.com/js/infolinks_main.js"></script>
+    <!-- <script type="text/javascript" src="https://resources.infolinks.com/js/infolinks_main.js"></script> -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SMX4VYYEJ3"></script>
-    <script>
+    <script> // Google Analytics
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
 
       gtag('config', 'G-SMX4VYYEJ3');
     </script>
+    <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
+    <script type="module"> // Firebase init.
+      import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js'
+      import { getAnalytics } from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-analytics.js'
+      import { getAuth } from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js'
+      import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js'
+      import 'https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js'
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyAOxa1tqQgoTPgswVW-7mTQBEfiYVrL2mI",
+        authDomain: "daysoffplanner.firebaseapp.com",
+        projectId: "daysoffplanner",
+        storageBucket: "daysoffplanner.appspot.com",
+        messagingSenderId: "999511004889",
+        appId: "1:999511004889:web:eb57c65f29eeffb97bd0c8",
+        measurementId: "G-6CX91Q6S19"
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+
+      var ui = new firebaseui.auth.AuthUI(getAuth(app));
+      ui.start('#firebaseui-auth-container', {
+        signInOptions: [
+          firebase.auth.EmailAuthProvider.PROVIDER_ID,
+          firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+          firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+          firebase.auth.GithubAuthProvider.PROVIDER_ID
+        ],
+      });
+
+    </script>
+    <!-- <script type="module">
+    </script> -->
+<!-- auth?  -->
+    <script src=""></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css" />
+    <script>
+      // import firebase from 'firebase/app';
+      // Initialize the FirebaseUI Widget using Firebase.
+    </script>
   </head>
   <body>
-    <div class="container">
+    <div class="subscribe-horizontal">
+      <div class="subscribe-body">
+        Make an account for $5 a year to save your progress.
+        <div>
+          <div id="firebaseui-auth-container"></div>
+        </div>
+      </div>
+    </div>
+    <div class="container main-horizontal" style="margin-left:25%; width:75%;">
       <div class="header-div">
         <ul class="header-ul">
           <li class="header-li title">Days Off Planner</li>
