@@ -16,8 +16,8 @@ https://analytics.google.com/analytics/web/#/p368862830/reports/intelligenthome
 https://dashboard.stripe.com/dashboard
 
 ## Todo 
-[] Stripe integration: https://console.firebase.google.com/project/daysoffplanner/extensions/instances/firestore-stripe-payments?tab=usage
-[] Save, load days in firestore DB
-[] Remove cookie caching
+[x] Stripe integration: https://console.firebase.google.com/project/daysoffplanner/extensions/instances/firestore-stripe-payments?tab=usage
+[x] Save, load days in firestore DB
+[x] Remove cookie caching
 [] Implement unsubscribe
 [] Mobile support

@@ -336,26 +336,6 @@ function addHoliday(date) {
     return false
 }
 
-function createCookie(name, value) {
-    var later = new Date(); later.setFullYear(later.getFullYear() + 10)
-    document.cookie = `${name}=${value}; expires=${later.toUTCString()}; path=/`
-}
-
-function getCookie(name) {
-    if (document.cookie.length > 0) {
-        var start = document.cookie.indexOf(name + "=")
-        var end = document.cookie.length
-        if (start != -1) {
-            start = start + name.length + 1
-            end = document.cookie.indexOf(";", start)
-            if (end != -1) {
-                return document.cookie.substring(start, end)
-            }
-            return document.cookie.substring(start, document.cookie.length)
-        }
-    }
-    return "";
-}
 
 async function reloadGraph() {
     console.log("reloadGraph()");
@@ -473,11 +453,6 @@ async function reloadGraph() {
             document.getElementById(timeoffRateId).value,
         );
     }
-    // createCookie(timeOffCookieKey, timeOffDays.join("|"))
-    // createCookie(holidaysCookieKey, holidays.join("|"))
-    // createCookie(pinnedBalanceValueId, document.getElementById(pinnedBalanceValueId).value)
-    // createCookie(timeOffRateCookieKey, document.getElementById(timeoffRateId).value)
-    // createCookie("days-off-planner-version", version)
 }
 
 function toggleHolidayList() {
@@ -558,27 +533,6 @@ async function start() {
         annualDay.setMonth(annualDay.getMonth() + 1);
     }
 
-    // let pinnedDateIso = getCookie(pinnedBalanceDateId);
-    // let pinnedDate = new Date(pinnedDateIso);
-    // if (pinnedDateIso == "") {
-    //     createCookie(pinnedBalanceDateId, new Date().toISOString().split("T")[0]);
-
-    //     // TODO: Cookies don't work when loading site from file, so not loading from cookie here.
-    //     pinnedDate = new Date();
-    // }
-
-    // let pinnedValue = Number(getCookie(pinnedBalanceValueId));
-    // if (isNaN(pinnedValue)) {
-    //     // If there's no cookie, use site default.
-    //     pinnedValue = document.getElementById(pinnedBalanceValueId).value;
-    // }
-    // document.getElementById(pinnedBalanceValueId).value = DaysBetween(pinnedDate, new Date()) * (timeOffDaysPerYear / 365.0) + pinnedValue;
-
-    reloadGraph();
-}
-
-function currentBalanceChanged() {
-    createCookie(pinnedBalanceDateId, new Date().toISOString().split("T")[0]);
     reloadGraph();
 }
 
