@@ -200,7 +200,8 @@ async function loadData() {
 
         // Add a new doc to "checkout_sessions", which Stripe listens for.
         addDoc(collection(db, "customers", currentUser.uid, "checkout_sessions"), {
-            price: 'price_1OBhrQCt7GABVsng1OXdxYhs', // price_1OBWbwCt7GABVsngXs9v9SnX
+            // price: 'price_1OBhrQCt7GABVsng1OXdxYhs', // $0.5
+            price: 'price_1OBWbwCt7GABVsngXs9v9SnX', // $10
             success_url: window.location.origin,
             cancel_url: window.location.origin + "?cancel=true",
         });
