@@ -1,12 +1,12 @@
-html {
-  height: 100%;
+html, body {
+  overflow: hidden;
   width: 100%;
-  -webkit-tap-highlight-color: transparent;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  height: 100%;
-  width: 100%;
   font: 100% system-ui;
   background-color: white;
   color: #1c1e21;
@@ -14,18 +14,11 @@ body {
   margin: 0px;
   display: block;
   -webkit-touch-callout: none;
-  /* iOS Safari */
   -webkit-user-select: none;
-  /* Safari */
   -khtml-user-select: none;
-  /* Konqueror HTML */
   -moz-user-select: none;
-  /* Old versions of Firefox */
   -ms-user-select: none;
-  /* Internet Explorer/Edge */
   user-select: none;
-  /* Non-prefixed version, currently
-                                  supported by Chrome, Edge, Opera and Firefox */
 }
 
 .container {
@@ -347,4 +340,24 @@ input {
 .modal-button.secondary {
   background-color: #ddd;
   color: #333;
+}
+
+#loading-div {
+  /* Height & width depends on how you want to reveal the overlay (see JS below) */   
+  display: block;
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  left: 0;
+  top: 0;
+  background-color: white;
+  z-index: 1;
+}
+
+#loading-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: xx-large;
 }

@@ -15,6 +15,12 @@
 </head>
 
 <body>
+    <div id="loading-div">
+        <div id="loading-text">
+            DaysOffPlanner.com
+        </div>
+    </div>
+
     <div class="subscribe-horizontal hide-logged-in" id="subscribe-horizontal">
         <div class="subscribe-body">
             <div class="login-container">
@@ -76,9 +82,11 @@
             </ul>
             <div id="unsubscribeModal" class="modal-container">
                 <div class="modal-title">Unsubscribe Confirmation</div>
-                <div class="modal-message">Are you sure you want to unsubscribe? This will immediately delete all your data.</div>
+                <div class="modal-message">Are you sure you want to unsubscribe? This will immediately delete all your
+                    data.</div>
                 <div class="modal-buttons">
-                    <button id="unsubscribe-confirm" class="modal-button secondary" onclick="unsubscribe()">Unsubscribe</button>
+                    <button id="unsubscribe-confirm" class="modal-button secondary"
+                        onclick="unsubscribe()">Unsubscribe</button>
                     <button class="modal-button primary" onclick="closeModal()">Cancel</button>
                 </div>
             </div>
@@ -91,17 +99,17 @@
         </div>
     </div>
 
-<script>
-    const modal = document.getElementById('unsubscribeModal');
+    <script>
+        const modal = document.getElementById('unsubscribeModal');
 
-    function openModal() {
-        modal.style.display = 'flex';
-    }
+        function openModal() {
+            modal.style.display = 'flex';
+        }
 
-    function closeModal() {
-        modal.style.display = 'none';
-    }
-</script>
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+    </script>
 </body>
 
 </html>

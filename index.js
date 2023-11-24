@@ -1,7 +1,24 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js'
 import { getAnalytics } from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-analytics.js'
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js'
-import { getFirestore, doc, onSnapshot, setDoc, getDoc, getDocs, addDoc, deleteDoc, collection } from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js'
+import { 
+    createUserWithEmailAndPassword,
+    deleteUser,
+    getAuth,
+    onAuthStateChanged,
+    signInWithEmailAndPassword,
+    signOut,
+} from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js'
+import {
+    addDoc,
+    collection,
+    deleteDoc,
+    doc,
+    getDoc,
+    getDocs,
+    getFirestore,
+    onSnapshot,
+    setDoc,
+} from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js'
 
 document.getElementById("password").addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
@@ -27,12 +44,33 @@ export const db = getFirestore(app);
 
 var currentUser = null;
 
+function showLoadingOverlay() {
+    document.getElementById("loading-div").style.display = "block";
+}
+
+function removeLoadingOverlay() {
+    document.getElementById("loading-div").style.display = "none";
+}
+
 onAuthStateChanged(auth, async (user) => {
+    console.log("onAuthStateChanged()");
     currentUser = user;
     document.getElementById("signInOrCreate").onclick = signInOrCreate;
     document.getElementById("sign-out-button").onclick = trySignOut;
     document.getElementById("unsubscribe-confirm").onclick = unsubscribe;
     if (user) {
+        showLoadingOverlay();
+        const searchParams = new URLSearchParams(window.location.search);
+        if (searchParams.get('cancel') == "true") {
+            deleteUser(user).then(() => {
+                console.log("deleted user");
+                window.location.href = window.location.origin;
+            }).catch((error) => {
+                console.log(error);
+                window.location.href = window.location.origin;
+            });
+        }
+
         [...document.getElementsByClassName("hide-logged-in")].forEach(el => {
             el.style.display = "none";
         });
@@ -43,6 +81,9 @@ onAuthStateChanged(auth, async (user) => {
         document.getElementById("container").style.width = "100%";
         await loadData();
     } else {
+        removeLoadingOverlay();
+        console.log("removeLoadingOverlay");
+
         [...document.getElementsByClassName("hide-logged-in")].forEach(el => {
             el.style.display = "inherit";
         });
@@ -107,13 +148,6 @@ function unsubscribe() {
     }
 }
 
-async function checkSubscribe() {
-    if (!currentUser) {
-        return false;
-    }
-
-}
-
 function trySignOut() {
     signOut(auth).then(() => {
         console.log("signed out");
@@ -140,7 +174,7 @@ async function loadData() {
         addDoc(collection(db, "customers", currentUser.uid, "checkout_sessions"), {
             price: 'price_1OBhrQCt7GABVsng1OXdxYhs', // price_1OBWbwCt7GABVsngXs9v9SnX
             success_url: window.location.origin,
-            cancel_url: window.location.origin,
+            cancel_url: window.location.origin + "?cancel=true",
         });
 
         // Wait for stripe to add more info to the doc.
@@ -187,6 +221,8 @@ async function loadData() {
         }
 
         reloadGraph();
+        console.log("removeLoadingOverlay");
+        removeLoadingOverlay();
     }
 }
 
@@ -466,6 +502,7 @@ function pinnedBalanceChanged() {
 }
 
 async function start() {
+
     document.getElementById("timeoff-rate").onchange = reloadGraph;
     document.getElementById("pinned-balance-value").onchange = pinnedBalanceChanged;
 
