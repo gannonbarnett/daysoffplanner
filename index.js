@@ -197,6 +197,13 @@ async function loadData() {
             }
 
             document.getElementById(timeoffRateId).value = docSnap.data().timeOffRate;
+            if (docSnap.data().pinnedBalance !== undefined) {
+                document.getElementById(pinnedBalanceValueId).value = docSnap.data().pinnedBalance;
+                pinnedBalanceDate = docSnap.data().pinnedBalanceDate;
+            } else {
+                document.getElementById(pinnedBalanceValueId).value = 0;
+                pinnedBalanceDate = new Date();
+            }
 
             hasLoadedData = true;
             console.log("hasLoadedData = true");
@@ -209,6 +216,8 @@ async function saveData(
     holidays,
     timeOffDays,
     timeOffRate,
+    pinnedBalance,
+    pinnedBalanceDate,
 ) {
     if (currentUser) {
         if (!activeSubscription) {
@@ -225,9 +234,14 @@ async function saveData(
             "holidays": holidays,
             "timeOffDays": timeOffDays,
             "timeOffRate": timeOffRate,
+            "pinnedBalance": pinnedBalance,
+            "pinnedBalanceDate": pinnedBalanceDate,
         }, { merge: true });
     }
 }
+
+var pinnedBalanceDate = new Date();
+var pinnedBalance = 0;
 
 const version = 2.0;
 
@@ -353,9 +367,7 @@ function addHoliday(date) {
     return false
 }
 
-
 async function reloadGraph() {
-    console.log("reloadGraph()");
     let thisWeek = new Date();
     thisWeek.setDate(thisWeek.getDate() - thisWeek.getDay());
 
@@ -464,10 +476,12 @@ async function reloadGraph() {
     }
 
     if (hasLoadedData) {
-        saveData(
+        await saveData(
             holidays,
             timeOffDays,
             document.getElementById(timeoffRateId).value,
+            document.getElementById(pinnedBalanceValueId).value,
+            pinnedBalanceDate,
         );
     }
 }
@@ -481,7 +495,15 @@ function toggleHolidayList() {
     }
 }
 
+function pinnedBalanceChanged() {
+    pinnedBalanceDate = new Date();
+    reloadGraph();
+}
+
 async function start() {
+    document.getElementById("timeoff-rate").onchange = reloadGraph;
+    document.getElementById("pinned-balance-value").onchange = pinnedBalanceChanged;
+
     var startDay = new Date();
     var endDay = new Date();
     endDay.setFullYear(startDay.getFullYear() + 1);

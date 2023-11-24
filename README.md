@@ -5,7 +5,7 @@ Plan your accrued vacation throughout the year.
 This project uses the simplest tools available so I can actually come back to it and understand how it works.
 
 ## Develop
-Open `index.html` in your browser. Or, run `python3 -m http.server 8080`
+Run `python3 -m http.server 8080`
 
 ## Deploy
 Push.
