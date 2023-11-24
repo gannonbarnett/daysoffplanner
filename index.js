@@ -245,17 +245,21 @@ async function loadData() {
             }
         }
 
-        if (docSnap.data().timeOffRate !== undefined) {
-            document.getElementById(timeoffRateId).value = docSnap.data().timeOffRate;
-        }
+        document.getElementById(timeoffRateId).value = docSnap.data().timeOffRate;
 
-        if (docSnap.data().pinnedBalance !== undefined) {
-            document.getElementById(pinnedBalanceValueId).value = docSnap.data().pinnedBalance;
-            pinnedBalanceDate = docSnap.data().pinnedBalanceDate;
+        if (docSnap.data().pinnedBalance !== undefined && docSnap.data().pinnedBalanceDate !== undefined) {
+            const daysSincePin = Number(DaysBetween(docSnap.data().pinnedBalanceDate.toDate(), new Date()));
+            const valueAtPin = Number(docSnap.data().pinnedBalance);
+            const vacaPerDay = Number(docSnap.data().timeOffRate) / 365.0;
+            const currBalance = Number(valueAtPin + (vacaPerDay * daysSincePin));
+
+            document.getElementById(pinnedBalanceValueId).value = Math.round(currBalance * 10) / 10;
         } else {
             document.getElementById(pinnedBalanceValueId).value = 0;
-            pinnedBalanceDate = new Date();
         }
+
+        // Update to current pin.
+        pinnedBalanceDate = new Date();
     }
 
     reloadGraph();

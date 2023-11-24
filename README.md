@@ -26,6 +26,7 @@ https://dashboard.stripe.com/dashboard
 [x] Loading page before subscription
 [x] Holidays are off by 1
 [x] Forgot password
+[x] Mobile support or mobile unsupported page
+[x] Pinned balance date is unimplemented
 [] Add company groups of holidays
-[] Pinned balance date is unimplemented
-[] Mobile support or mobile unsupported page
+[] Check subscription is actually the $10 in prod
