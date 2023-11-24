@@ -100,9 +100,7 @@ onAuthStateChanged(auth, async (user) => {
         hideSubscription();
         await loadData();
     } else {
-        console.log("signed out");
         removeLoadingOverlay();
-        console.log("removeLoadingOverlay");
 
         // Don't show the subscription on mobile (yet).
         if (window.innerWidth > 800) {
@@ -294,47 +292,63 @@ const version = 2.1;
 const MonthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 const holidayDates = [
-    { name: "Thanksgiving Day 2023", date: new Date(2023, 10, 23) },
-    { name: "Thanksgiving Friday 2023", date: new Date(2023, 10, 24) },
-    { name: "Christmas Day 2023", date: new Date(2023, 11, 25) },
-    { name: "New Year's Day 2024", date: new Date(2024, 0, 1) },
-    { name: "Martin Luther King Jr. Day 2024", date: new Date(2024, 0, 15) },
-    { name: "Presidents Day 2024", date: new Date(2024, 1, 19) },
-    { name: "Memorial Day 2024", date: new Date(2024, 4, 27) },
-    { name: "July 4th 2024", date: new Date(2024, 6, 4) },
-    { name: "Labor Day 2024", date: new Date(2024, 8, 2) },
-    { name: "Thanksgiving Day 2024", date: new Date(2024, 10, 28) },
-    { name: "Christmas Day 2024", date: new Date(2024, 11, 25) },
-    { name: "New Year's Day 2025", date: new Date(2025, 0, 1) },
-    { name: "Martin Luther King Jr. Day 2025", date: new Date(2025, 0, 20) },
-    { name: "Presidents Day 2025", date: new Date(2025, 1, 17) },
-    { name: "Memorial Day 2025", date: new Date(2025, 4, 26) },
-    { name: "July 4th 2025", date: new Date(2025, 6, 4) },
-    { name: "Labor Day 2025", date: new Date(2025, 8, 1) },
-    { name: "Thanksgiving Day 2025", date: new Date(2025, 10, 27) },
-    { name: "Christmas Day 2025", date: new Date(2025, 11, 25) },
-    { name: "New Year's Day 2026", date: new Date(2026, 0, 1) },
-    { name: "Martin Luther King Jr. Day 2026", date: new Date(2026, 0, 19) },
-    { name: "Presidents Day 2026", date: new Date(2026, 1, 16) },
-    { name: "Memorial Day 2026", date: new Date(2026, 4, 25) },
-    { name: "July 4th 2026", date: new Date(2026, 6, 3) },
-    { name: "Labor Day 2026", date: new Date(2026, 8, 7) },
-    { name: "Thanksgiving Day 2026", date: new Date(2026, 10, 26) },
-    { name: "Christmas Day 2026", date: new Date(2026, 11, 25) },
-    { name: "New Year's Day 2027", date: new Date(2027, 0, 1) },
-    { name: "Martin Luther King Jr. Day 2027", date: new Date(2027, 0, 18) },
-    { name: "Presidents Day 2027", date: new Date(2027, 1, 15) },
-    { name: "Memorial Day 2027", date: new Date(2027, 4, 31) },
-    { name: "July 4th 2027", date: new Date(2027, 6, 5) },
-    { name: "Labor Day 2027", date: new Date(2027, 8, 6) },
-    { name: "Thanksgiving Day 2027", date: new Date(2027, 10, 25) },
-    { name: "Christmas Day 2027", date: new Date(2027, 11, 25) }
+    { name: "Thanksgiving Day 2023", date: new Date(2023, 10, 23), companies: ["SpaceX"] },
+    { name: "Thanksgiving Friday 2023", date: new Date(2023, 10, 24), companies: ["SpaceX"] },
+    { name: "Christmas Day 2023", date: new Date(2023, 11, 25), companies: ["SpaceX"] },
+    { name: "New Year's Day 2024", date: new Date(2024, 0, 1), companies: ["SpaceX"] },
+    { name: "Martin Luther King Jr. Day 2024", date: new Date(2024, 0, 15), companies: ["SpaceX"] },
+    { name: "Presidents Day 2024", date: new Date(2024, 1, 19), companies: ["SpaceX"] },
+    { name: "Memorial Day 2024", date: new Date(2024, 4, 27), companies: ["SpaceX"] },
+    { name: "July 4th 2024", date: new Date(2024, 6, 4), companies: ["SpaceX"] },
+    { name: "Labor Day 2024", date: new Date(2024, 8, 2), companies: ["SpaceX"] },
+    { name: "Thanksgiving Day 2024", date: new Date(2024, 10, 28), companies: ["SpaceX"] },
+    { name: "Christmas Day 2024", date: new Date(2024, 11, 25), companies: ["SpaceX"] },
+    { name: "New Year's Day 2025", date: new Date(2025, 0, 1), companies: ["SpaceX"] },
+    { name: "Martin Luther King Jr. Day 2025", date: new Date(2025, 0, 20), companies: ["SpaceX"] },
+    { name: "Presidents Day 2025", date: new Date(2025, 1, 17), companies: ["SpaceX"] },
+    { name: "Memorial Day 2025", date: new Date(2025, 4, 26), companies: ["SpaceX"] },
+    { name: "July 4th 2025", date: new Date(2025, 6, 4), companies: ["SpaceX"] },
+    { name: "Labor Day 2025", date: new Date(2025, 8, 1), companies: ["SpaceX"] },
+    { name: "Thanksgiving Day 2025", date: new Date(2025, 10, 27), companies: ["SpaceX"] },
+    { name: "Christmas Day 2025", date: new Date(2025, 11, 25), companies: ["SpaceX"] },
+    { name: "New Year's Day 2026", date: new Date(2026, 0, 1), companies: ["SpaceX"] },
+    { name: "Martin Luther King Jr. Day 2026", date: new Date(2026, 0, 19), companies: ["SpaceX"] },
+    { name: "Presidents Day 2026", date: new Date(2026, 1, 16), companies: ["SpaceX"] },
+    { name: "Memorial Day 2026", date: new Date(2026, 4, 25), companies: ["SpaceX"] },
+    { name: "July 4th 2026", date: new Date(2026, 6, 3), companies: ["SpaceX"] },
+    { name: "Labor Day 2026", date: new Date(2026, 8, 7), companies: ["SpaceX"] },
+    { name: "Thanksgiving Day 2026", date: new Date(2026, 10, 26), companies: ["SpaceX"] },
+    { name: "Christmas Day 2026", date: new Date(2026, 11, 25), companies: ["SpaceX"] },
+    { name: "New Year's Day 2027", date: new Date(2027, 0, 1), companies: ["SpaceX"] },
+    { name: "Martin Luther King Jr. Day 2027", date: new Date(2027, 0, 18), companies: ["SpaceX"] },
+    { name: "Presidents Day 2027", date: new Date(2027, 1, 15), companies: ["SpaceX"] },
+    { name: "Memorial Day 2027", date: new Date(2027, 4, 31), companies: ["SpaceX"] },
+    { name: "July 4th 2027", date: new Date(2027, 6, 5), companies: ["SpaceX"] },
+    { name: "Labor Day 2027", date: new Date(2027, 8, 6), companies: ["SpaceX"] },
+    { name: "Thanksgiving Day 2027", date: new Date(2027, 10, 25), companies: ["SpaceX"] },
+    { name: "Christmas Day 2027", date: new Date(2027, 11, 25), companies: ["SpaceX"] }
+];
+
+const supportedCompanies = [
+    "SpaceX",
+    // "Amazon",
+    // "Google",
 ];
 
 const DayMs = 86400000
 
 function DaysBetween(first, second) {
     return Math.round((second.valueOf() - first.valueOf()) / DayMs);
+}
+
+async function setCompany(company) {
+    for (var i = 0; i < holidayDates.length; i++) {
+        removeHoliday(holidayDates[i].date.toISOString().split("T")[0]);
+        if (holidayDates[i].companies.indexOf(company) !== -1) {
+            addHoliday(holidayDates[i].date.toISOString().split("T")[0]);
+        }
+    }
+    await reloadGraph();
 }
 
 // String of dates in ISO format.
@@ -387,26 +401,62 @@ function addTimeoff(date) {
 function removeHoliday(date) {
     const holidayEl = document.getElementById(`holiday-${date}`)
     const dayEl = document.getElementById(date)
+    var newHoliday = false;
     if (holidays.indexOf(date) !== -1) {
-        dayEl.classList.remove("holiday")
-        holidayEl.classList.remove("holidays-button-selected")
+        // It's possible that this day, or holiday is not shown in the UI.
+        if (dayEl != null) {
+            dayEl.classList.remove("holiday")
+        }
+        if (holidayEl != null) {
+            holidayEl.classList.remove("holidays-button-selected")
+        }
+
         holidays.splice(holidays.indexOf(date), 1)
-        return true
+        newHoliday = true;
     }
-    return false
+    updateCompanyCheckmarks();
+    return newHoliday;
 }
 
 function addHoliday(date) {
     const holidayEl = document.getElementById(`holiday-${date}`)
     const dayEl = document.getElementById(date)
     removeTimeoff(date)
+    var newHoliday = false;
     if (holidays.indexOf(date) == -1) {
-        dayEl.classList.add("holiday")
-        holidayEl.classList.add("holidays-button-selected")
+        // It's possible that this day, or holiday is not shown in the UI.
+        if (dayEl != null) {
+            dayEl.classList.add("holiday")
+        }
+        if (holidayEl != null) {
+            holidayEl.classList.add("holidays-button-selected")
+        }
+
         holidays.push(date)
-        return true
+        newHoliday = true;
     }
-    return false
+
+    updateCompanyCheckmarks();
+    return newHoliday
+}
+
+function updateCompanyCheckmarks() {
+    // Add checkmarks if the user has all holidays of the company selected.
+    for (var i = 0; i < supportedCompanies.length; i++) {
+        for (var j = 0; j < holidayDates.length; j++) {
+            if (holidayDates[j].companies.indexOf(supportedCompanies[i]) !== -1) {
+                if (holidays.indexOf(holidayDates[j].date.toISOString().split("T")[0]) == -1) {
+                    break
+                }
+            }
+        }
+
+        if (j == holidayDates.length) {
+            document.getElementById(`company-${supportedCompanies[i]}`).innerHTML = `${supportedCompanies[i]} &#10003;`;
+        } else {
+            document.getElementById(`company-${supportedCompanies[i]}`).innerHTML = `${supportedCompanies[i]}`;
+        }
+    }
 }
 
 async function reloadGraph() {
@@ -572,7 +622,8 @@ async function start() {
             continue
         }
 
-        var parent = document.getElementById("holidays-content-div-id");
+        // var parent = document.getElementById("holidays-content-div-id");
+        var parent = document.getElementById("holidays-specific-content-div-id");
         var div = document.createElement("div");
         var iso = holidayDates[i].date.toISOString().split("T")[0];
         div.id = `holiday-${iso}`;
@@ -580,6 +631,19 @@ async function start() {
         div.onclick = function () { toggleHoliday(this.id.replace("holiday-", "")) };
         div.innerHTML = holidayDates[i].name;
         parent.appendChild(div);
+    }
+
+    var div = document.createElement("div");
+    div.className = "company-separator";
+    document.getElementById("holidays-content-div-id").appendChild(div);
+
+    for (var i = 0; i < supportedCompanies.length; i ++) {
+        var div = document.createElement("div");
+        div.className = "company-button-div";
+        div.id = `company-${supportedCompanies[i]}`;
+        div.onclick = async function () { await setCompany(this.id.replace("company-", "")) };
+        div.innerHTML = supportedCompanies[i];
+        document.getElementById("holidays-content-div-id").appendChild(div);
     }
 
     var lastMonth = -1;

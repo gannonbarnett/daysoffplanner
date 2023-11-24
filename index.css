@@ -368,3 +368,12 @@ input {
   font-size: small;
   color:rgba(0, 0, 0, 0.6);
 }
+
+.company-separator {
+  height: 5px;
+  background-color: black;
+}
+
+.company-button-div {
+  cursor: pointer;
+}
