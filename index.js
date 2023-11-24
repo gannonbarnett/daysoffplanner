@@ -575,7 +575,7 @@ async function start() {
         for (var monthDayI = 0; monthDayI < [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][annualDay.getMonth()]; monthDayI++) {
             var monthDay = new Date(annualDay.getTime()); monthDay.setDate(monthDayI + 1)
 
-            var monthDayIso = new Date(monthDay.getTime()); monthDayIso.setDate(monthDay.getDate() - 1)
+            var monthDayIso = new Date(monthDay.getTime()); monthDayIso.setDate(monthDay.getDate())
 
             var monthDayLi = document.createElement("li");
             monthDayLi.id = monthDayIso.toISOString().split("T")[0]
