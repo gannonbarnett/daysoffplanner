@@ -26,8 +26,6 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 
 var currentUser = null;
-var subscribed = false;
-var pendingCheckout = false;
 
 onAuthStateChanged(auth, async (user) => {
     currentUser = user;
@@ -114,38 +112,6 @@ async function checkSubscribe() {
         return false;
     }
 
-    const querySnapshot = await getDocs(collection(db, "customers", currentUser.uid, "subscriptions"));
-    querySnapshot.forEach((doc) => {
-        console.log(doc.data());
-        if (doc.data().status == "active") {
-            subscribed = true;
-        }
-    });
-
-    if (subscribed) {
-        return
-    }
-
-    pendingCheckout = true;
-
-    // Add a new doc to "checkout_sessions", which Stripe listens for.
-    addDoc(collection(db, "customers", currentUser.uid, "checkout_sessions"), {
-        price: 'price_1OBhrQCt7GABVsng1OXdxYhs', // price_1OBWbwCt7GABVsngXs9v9SnX
-        success_url: window.location.origin,
-        cancel_url: window.location.origin,
-    });
-
-    // Wait for stripe to add more info to the doc.
-    onSnapshot(collection(db, "customers", currentUser.uid, "checkout_sessions"), (snap) => {
-        const { error, url } = snap.docs[0].data();
-        if (error) {
-            alert(`An error occured: ${error.message}`);
-            console.log(error);
-        }
-        if (url) {
-            window.location.assign(url);
-        }
-    });
 }
 
 function trySignOut() {
@@ -161,9 +127,35 @@ async function loadData() {
         return
     }
 
-    if (!subscribed && !pendingCheckout) {
-        pendingCheckout = true;
-        await checkSubscribe();
+    var subscribed = false;
+    const querySnapshot = await getDocs(collection(db, "customers", currentUser.uid, "subscriptions"));
+    querySnapshot.forEach((doc) => {
+        if (doc.data().status == "active") {
+            subscribed = true;
+        }
+    });
+
+    if (!subscribed) {
+        // Add a new doc to "checkout_sessions", which Stripe listens for.
+        addDoc(collection(db, "customers", currentUser.uid, "checkout_sessions"), {
+            price: 'price_1OBhrQCt7GABVsng1OXdxYhs', // price_1OBWbwCt7GABVsngXs9v9SnX
+            success_url: window.location.origin,
+            cancel_url: window.location.origin,
+        });
+
+        // Wait for stripe to add more info to the doc.
+        onSnapshot(collection(db, "customers", currentUser.uid, "checkout_sessions"), (snap) => {
+            const { error, url } = snap.docs[0].data();
+            if (error) {
+                alert(`An error occured: ${error.message}`);
+                console.log(error);
+            }
+            if (url) {
+                window.location.assign(url);
+            }
+        });
+
+        // If the user isn't subscribed, they'll be redirected to stripe and back. loadData will be called again.
         return
     }
 
@@ -194,7 +186,6 @@ async function loadData() {
             pinnedBalanceDate = new Date();
         }
 
-        hasLoadedData = true;
         reloadGraph();
     }
 }
@@ -546,7 +537,6 @@ async function start() {
         annualDay.setMonth(annualDay.getMonth() + 1);
     }
 
-    await loadData();
     reloadGraph();
 }
 
