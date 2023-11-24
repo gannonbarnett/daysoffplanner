@@ -21,8 +21,10 @@ https://dashboard.stripe.com/dashboard
 [x] Remove cookie caching
 [x] Implement unsubscribe
 [x] Current balance broken, timeoff rate broken
-[] loading page after sign up before stripe
-[] Loading page before signin
-[] Loading page before subscription
-[] Mobile support or mobile unsupported page
+[x] Loading page after sign up before stripe
+[x] Loading page before signin
+[x] Loading page before subscription
+[] Holidays are off by 1
 [] Forgot password
+[] Pinned balance date is unimplemented
+[] Mobile support or mobile unsupported page

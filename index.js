@@ -59,9 +59,11 @@ onAuthStateChanged(auth, async (user) => {
     document.getElementById("sign-out-button").onclick = trySignOut;
     document.getElementById("unsubscribe-confirm").onclick = unsubscribe;
     if (user) {
+        console.log("signed in");
         showLoadingOverlay();
         const searchParams = new URLSearchParams(window.location.search);
         if (searchParams.get('cancel') == "true") {
+            deleteDoc(doc(db, "customers", currentUser.uid));
             deleteUser(user).then(() => {
                 console.log("deleted user");
                 window.location.href = window.location.origin;
@@ -81,6 +83,7 @@ onAuthStateChanged(auth, async (user) => {
         document.getElementById("container").style.width = "100%";
         await loadData();
     } else {
+        console.log("signed out");
         removeLoadingOverlay();
         console.log("removeLoadingOverlay");
 
@@ -145,6 +148,14 @@ function signInOrCreate() {
 function unsubscribe() {
     if (currentUser) {
         deleteDoc(doc(db, "customers", currentUser.uid));
+        deleteUser(currentUser).then(() => {
+            console.log("deleted user");
+            window.location.href = window.location.origin;
+        }).catch((error) => {
+            console.log(error);
+            trySignOut();
+            window.location.href = window.location.origin;
+        });
     }
 }
 
@@ -170,6 +181,8 @@ async function loadData() {
     });
 
     if (!subscribed) {
+        console.log("subscribing");
+
         // Add a new doc to "checkout_sessions", which Stripe listens for.
         addDoc(collection(db, "customers", currentUser.uid, "checkout_sessions"), {
             price: 'price_1OBhrQCt7GABVsng1OXdxYhs', // price_1OBWbwCt7GABVsngXs9v9SnX
@@ -196,22 +209,30 @@ async function loadData() {
     const docRef = doc(db, "customers", currentUser.uid);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-        for (let i = 0; i < docSnap.data().timeOffDays.length; i += 1) {
-            let date = docSnap.data().timeOffDays[i];
-            if (date == '') {
-                continue;
+        if (docSnap.data().timeOffDays) {
+            for (let i = 0; i < docSnap.data().timeOffDays.length; i += 1) {
+                let date = docSnap.data().timeOffDays[i];
+                if (date == '') {
+                    continue;
+                }
+                addTimeoff(date);
             }
-            addTimeoff(date);
         }
-        for (let i = 0; i < docSnap.data().holidays.length; i += 1) {
-            let date = docSnap.data().holidays[i];
-            if (date == '') {
-                continue;
+        
+        if (docSnap.data().holidays) {
+            for (let i = 0; i < docSnap.data().holidays.length; i += 1) {
+                let date = docSnap.data().holidays[i];
+                if (date == '') {
+                    continue;
+                }
+                addHoliday(date);
             }
-            addHoliday(date);
         }
 
-        document.getElementById(timeoffRateId).value = docSnap.data().timeOffRate;
+        if (docSnap.data().timeOffRate !== undefined) {
+            document.getElementById(timeoffRateId).value = docSnap.data().timeOffRate;
+        }
+
         if (docSnap.data().pinnedBalance !== undefined) {
             document.getElementById(pinnedBalanceValueId).value = docSnap.data().pinnedBalance;
             pinnedBalanceDate = docSnap.data().pinnedBalanceDate;
@@ -219,11 +240,11 @@ async function loadData() {
             document.getElementById(pinnedBalanceValueId).value = 0;
             pinnedBalanceDate = new Date();
         }
-
-        reloadGraph();
-        console.log("removeLoadingOverlay");
-        removeLoadingOverlay();
     }
+
+    reloadGraph();
+    console.log("removeLoadingOverlay");
+    removeLoadingOverlay();
 }
 
 async function saveData(
