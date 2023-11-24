@@ -269,13 +269,11 @@ async function saveData(
 
 var pinnedBalanceDate = new Date();
 
-const version = 2.0;
+const version = 2.1;
 
 const MonthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 const holidayDates = [
-    { name: "July 4th 2023", date: new Date(2023, 6, 4) },
-    { name: "Labor Day 2023", date: new Date(2023, 8, 4) },
     { name: "Thanksgiving Day 2023", date: new Date(2023, 10, 23) },
     { name: "Thanksgiving Friday 2023", date: new Date(2023, 10, 24) },
     { name: "Christmas Day 2023", date: new Date(2023, 11, 25) },

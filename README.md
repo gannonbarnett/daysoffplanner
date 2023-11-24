@@ -24,7 +24,7 @@ https://dashboard.stripe.com/dashboard
 [x] Loading page after sign up before stripe
 [x] Loading page before signin
 [x] Loading page before subscription
-[] Holidays are off by 1
+[x] Holidays are off by 1
 [] Forgot password
 [] Pinned balance date is unimplemented
 [] Mobile support or mobile unsupported page
