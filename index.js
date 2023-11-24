@@ -1,13 +1,12 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js'
 import { getAnalytics } from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-analytics.js'
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js'
-import { getFirestore, doc, onSnapshot, setDoc, getDoc, addDoc, deleteDoc, collection } from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js'
+import { getFirestore, doc, onSnapshot, setDoc, getDoc, getDocs, addDoc, deleteDoc, collection } from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js'
 
-// Make password field submit form on enter.
-document.getElementById("password").addEventListener("keypress", function(event) {
+document.getElementById("password").addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
-      event.preventDefault();
-      signInOrCreate();
+        event.preventDefault();
+        signInOrCreate();
     }
 });
 
@@ -27,10 +26,10 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 
 var currentUser = null;
-var activeSubscription = false;
-var hasLoadedData = false;
+var subscribed = false;
+var pendingCheckout = false;
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
     currentUser = user;
     document.getElementById("signInOrCreate").onclick = signInOrCreate;
     document.getElementById("sign-out-button").onclick = trySignOut;
@@ -44,16 +43,7 @@ onAuthStateChanged(auth, (user) => {
         });
         document.getElementById("container").style.marginLeft = "0%";
         document.getElementById("container").style.width = "100%";
-
-        document.getElementById("password").value = "";
-        console.log("logged in");
-        updateActiveSubscription(() => {
-            console.log("HERE")
-            if (!activeSubscription) {
-                subscribe();
-            }
-            loadData();
-        });
+        await loadData();
     } else {
         [...document.getElementsByClassName("hide-logged-in")].forEach(el => {
             el.style.display = "inherit";
@@ -66,7 +56,7 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 
-function setSignInState(loading) {
+function setSignInLoading(loading) {
     if (loading) {
         document.getElementById("signInOrCreateText").style.display = "none";
         document.getElementById("signInOrCreateLoading").style.display = "inherit";
@@ -97,25 +87,18 @@ function firebaseErrorCodeToString(error) {
 
 function signInOrCreate() {
     document.getElementById("error-message").innerHTML = "";
-    setSignInState(true);
+    setSignInLoading(true);
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-    signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
-        const user = userCredential.user;
-        setSignInState(false);
-        updateActiveSubscription(() => {
-            if (!activeSubscription) {
-                subscribe();
-            }
-        })
+    signInWithEmailAndPassword(auth, email, password).then(async (userCredential) => {
+        setSignInLoading(false);
     }).catch((_) => {
         createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
             currentUser = userCredential.user;
-            setSignInState(false);
-            subscribe();
+            setSignInLoading(false);
         }).catch((error) => {
             document.getElementById("error-message").innerHTML = firebaseErrorCodeToString(error.code);
-            setSignInState(false);
+            setSignInLoading(false);
         });
     });
 }
@@ -126,26 +109,33 @@ function unsubscribe() {
     }
 }
 
-async function updateActiveSubscription(callback) {
-    onSnapshot(collection(db, "customers", currentUser.uid, "subscriptions"), (snap) => {
-        console.log(snap.docs[0])
-        if (snap.empty || snap.docs[0].active == false) {
-            activeSubscription = false;
-        } else {
-            activeSubscription = true;
-        }
-        callback();
-    });
-}
+async function checkSubscribe() {
+    if (!currentUser) {
+        return false;
+    }
 
-async function subscribe() {
-    console.log("subscribe()");
-    await addDoc(collection(db, "customers", currentUser.uid, "checkout_sessions"), {
+    const querySnapshot = await getDocs(collection(db, "customers", currentUser.uid, "subscriptions"));
+    querySnapshot.forEach((doc) => {
+        console.log(doc.data());
+        if (doc.data().status == "active") {
+            subscribed = true;
+        }
+    });
+
+    if (subscribed) {
+        return
+    }
+
+    pendingCheckout = true;
+
+    // Add a new doc to "checkout_sessions", which Stripe listens for.
+    addDoc(collection(db, "customers", currentUser.uid, "checkout_sessions"), {
         price: 'price_1OBhrQCt7GABVsng1OXdxYhs', // price_1OBWbwCt7GABVsngXs9v9SnX
         success_url: window.location.origin,
         cancel_url: window.location.origin,
     });
 
+    // Wait for stripe to add more info to the doc.
     onSnapshot(collection(db, "customers", currentUser.uid, "checkout_sessions"), (snap) => {
         const { error, url } = snap.docs[0].data();
         if (error) {
@@ -167,48 +157,45 @@ function trySignOut() {
 }
 
 async function loadData() {
-    if (currentUser) {
-        if (!activeSubscription) {
-            updateActiveSubscription(() => {
-                if (!activeSubscription) {
-                    console.log("No active sub")
-                    subscribe();
-                }
-            });
-            return;
+    if (currentUser == undefined) {
+        return
+    }
+
+    if (!subscribed && !pendingCheckout) {
+        pendingCheckout = true;
+        await checkSubscribe();
+        return
+    }
+
+    const docRef = doc(db, "customers", currentUser.uid);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        for (let i = 0; i < docSnap.data().timeOffDays.length; i += 1) {
+            let date = docSnap.data().timeOffDays[i];
+            if (date == '') {
+                continue;
+            }
+            addTimeoff(date);
+        }
+        for (let i = 0; i < docSnap.data().holidays.length; i += 1) {
+            let date = docSnap.data().holidays[i];
+            if (date == '') {
+                continue;
+            }
+            addHoliday(date);
         }
 
-        const docRef = doc(db, "customers", currentUser.uid);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-            for (let i = 0; i < docSnap.data().timeOffDays.length; i += 1) {
-                let date = docSnap.data().timeOffDays[i];
-                if (date == '') {
-                    continue;
-                }
-                addTimeoff(date);
-            }
-            for (let i = 0; i < docSnap.data().holidays.length; i += 1) {
-                let date = docSnap.data().holidays[i];
-                if (date == '') {
-                    continue;
-                }
-                addHoliday(date);
-            }
-
-            document.getElementById(timeoffRateId).value = docSnap.data().timeOffRate;
-            if (docSnap.data().pinnedBalance !== undefined) {
-                document.getElementById(pinnedBalanceValueId).value = docSnap.data().pinnedBalance;
-                pinnedBalanceDate = docSnap.data().pinnedBalanceDate;
-            } else {
-                document.getElementById(pinnedBalanceValueId).value = 0;
-                pinnedBalanceDate = new Date();
-            }
-
-            hasLoadedData = true;
-            console.log("hasLoadedData = true");
-            reloadGraph();
+        document.getElementById(timeoffRateId).value = docSnap.data().timeOffRate;
+        if (docSnap.data().pinnedBalance !== undefined) {
+            document.getElementById(pinnedBalanceValueId).value = docSnap.data().pinnedBalance;
+            pinnedBalanceDate = docSnap.data().pinnedBalanceDate;
+        } else {
+            document.getElementById(pinnedBalanceValueId).value = 0;
+            pinnedBalanceDate = new Date();
         }
+
+        hasLoadedData = true;
+        reloadGraph();
     }
 }
 
@@ -219,29 +206,20 @@ async function saveData(
     pinnedBalance,
     pinnedBalanceDate,
 ) {
-    if (currentUser) {
-        if (!activeSubscription) {
-            updateActiveSubscription(() => {
-                if (!activeSubscription) {
-                    console.log("No active sub")
-                    subscribe();
-                }
-            });
-            return;
-        }
-
-        await setDoc(doc(db, "customers", currentUser.uid), {
-            "holidays": holidays,
-            "timeOffDays": timeOffDays,
-            "timeOffRate": timeOffRate,
-            "pinnedBalance": pinnedBalance,
-            "pinnedBalanceDate": pinnedBalanceDate,
-        }, { merge: true });
+    if (currentUser == undefined) {
+        return;
     }
+
+    await setDoc(doc(db, "customers", currentUser.uid), {
+        "holidays": holidays,
+        "timeOffDays": timeOffDays,
+        "timeOffRate": timeOffRate,
+        "pinnedBalance": pinnedBalance,
+        "pinnedBalanceDate": pinnedBalanceDate,
+    }, { merge: true });
 }
 
 var pinnedBalanceDate = new Date();
-var pinnedBalance = 0;
 
 const version = 2.0;
 
@@ -302,9 +280,7 @@ let holidays = []
 const mainChartId = "chart"
 const timeoffRateId = "timeoff-rate"
 
-// Value and date represent a reference point for the current balance.
 const pinnedBalanceValueId = "pinned-balance-value"
-const pinnedBalanceDateId = "pinned-balance-date"
 
 var mainChart = null
 
@@ -475,15 +451,13 @@ async function reloadGraph() {
         mainChart.update();
     }
 
-    if (hasLoadedData) {
-        await saveData(
-            holidays,
-            timeOffDays,
-            document.getElementById(timeoffRateId).value,
-            document.getElementById(pinnedBalanceValueId).value,
-            pinnedBalanceDate,
-        );
-    }
+    await saveData(
+        holidays,
+        timeOffDays,
+        document.getElementById(timeoffRateId).value,
+        document.getElementById(pinnedBalanceValueId).value,
+        pinnedBalanceDate,
+    );
 }
 
 function toggleHolidayList() {
@@ -572,6 +546,7 @@ async function start() {
         annualDay.setMonth(annualDay.getMonth() + 1);
     }
 
+    await loadData();
     reloadGraph();
 }
 

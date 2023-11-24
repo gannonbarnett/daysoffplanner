@@ -20,7 +20,9 @@ https://dashboard.stripe.com/dashboard
 [x] Save, load days in firestore DB
 [x] Remove cookie caching
 [x] Implement unsubscribe
-[] Current balance broken
+[x] Current balance broken, timeoff rate broken
+[] loading page after sign up before stripe
 [] Loading page before signin
 [] Loading page before subscription
 [] Mobile support or mobile unsupported page
+[] Forgot password
