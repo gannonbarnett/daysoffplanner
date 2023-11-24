@@ -5,6 +5,7 @@ import {
     deleteUser,
     getAuth,
     onAuthStateChanged,
+    sendPasswordResetEmail,
     signInWithEmailAndPassword,
     signOut,
 } from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js'
@@ -43,6 +44,7 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 
 var currentUser = null;
+var sentPasswordResetEmail = false;
 
 function showLoadingOverlay() {
     document.getElementById("loading-div").style.display = "block";
@@ -520,10 +522,29 @@ function pinnedBalanceChanged() {
     reloadGraph();
 }
 
+function resetPassword() {
+    if (sentPasswordResetEmail || document.getElementById("email").value == "") {
+        return
+    }
+    sendPasswordResetEmail(auth, document.getElementById("email").value)
+    .then(() => {
+        sentPasswordResetEmail = true;
+        document.getElementById("reset-password").innerHTML = "Email sent";
+        console.log("password reset email sent");
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode, errorMessage);
+    });
+}
+
 async function start() {
 
     document.getElementById("timeoff-rate").onchange = reloadGraph;
     document.getElementById("pinned-balance-value").onchange = pinnedBalanceChanged;
+
+    document.getElementById("reset-password").onclick = resetPassword;
 
     var startDay = new Date();
     var endDay = new Date();

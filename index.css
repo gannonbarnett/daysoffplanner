@@ -289,6 +289,7 @@ input {
 #signInOrCreateLoading {
   display: none;
 }
+
 #error-message {
   font-size: small;
   margin-top: 0;
@@ -360,4 +361,10 @@ input {
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: xx-large;
+}
+
+#reset-password {
+  cursor: pointer;
+  font-size: small;
+  color:rgba(0, 0, 0, 0.6);
 }

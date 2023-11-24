@@ -25,6 +25,7 @@ https://dashboard.stripe.com/dashboard
 [x] Loading page before signin
 [x] Loading page before subscription
 [x] Holidays are off by 1
-[] Forgot password
+[x] Forgot password
+[] Add company groups of holidays
 [] Pinned balance date is unimplemented
 [] Mobile support or mobile unsupported page
