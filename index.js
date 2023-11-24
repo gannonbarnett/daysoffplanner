@@ -54,6 +54,28 @@ function removeLoadingOverlay() {
     document.getElementById("loading-div").style.display = "none";
 }
 
+function hideSubscription() {
+    [...document.getElementsByClassName("hide-logged-in")].forEach(el => {
+        el.style.display = "none";
+    });
+    [...document.getElementsByClassName("hide-logged-out")].forEach(el => {
+        el.style.display = "inherit";
+    });
+    document.getElementById("container").style.marginLeft = "0%";
+    document.getElementById("container").style.width = "100%";
+}
+
+function showSubscription() {
+    [...document.getElementsByClassName("hide-logged-in")].forEach(el => {
+        el.style.display = "inherit";
+    });
+    [...document.getElementsByClassName("hide-logged-out")].forEach(el => {
+        el.style.display = "none";
+    });
+    document.getElementById("container").style.marginLeft = "25%";
+    document.getElementById("container").style.width = "75%";
+}
+
 onAuthStateChanged(auth, async (user) => {
     console.log("onAuthStateChanged()");
     currentUser = user;
@@ -75,28 +97,19 @@ onAuthStateChanged(auth, async (user) => {
             });
         }
 
-        [...document.getElementsByClassName("hide-logged-in")].forEach(el => {
-            el.style.display = "none";
-        });
-        [...document.getElementsByClassName("hide-logged-out")].forEach(el => {
-            el.style.display = "inherit";
-        });
-        document.getElementById("container").style.marginLeft = "0%";
-        document.getElementById("container").style.width = "100%";
+        hideSubscription();
         await loadData();
     } else {
         console.log("signed out");
         removeLoadingOverlay();
         console.log("removeLoadingOverlay");
 
-        [...document.getElementsByClassName("hide-logged-in")].forEach(el => {
-            el.style.display = "inherit";
-        });
-        [...document.getElementsByClassName("hide-logged-out")].forEach(el => {
-            el.style.display = "none";
-        });
-        document.getElementById("container").style.marginLeft = "25%";
-        document.getElementById("container").style.width = "75%";
+        // Don't show the subscription on mobile (yet).
+        if (window.innerWidth > 800) {
+            showSubscription();
+        } else {
+            hideSubscription();
+        }
     }
 });
 
