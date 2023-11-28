@@ -301,7 +301,7 @@ const holidayDates = [
     { name: "July 4th 2024", date: new Date(2024, 6, 4), companies: ["SpaceX"] },
     { name: "July 5th 2024", date: new Date(2024, 6, 5), companies: ["SpaceX"] },
     { name: "Labor Day 2024", date: new Date(2024, 8, 2), companies: ["SpaceX"] },
-    { name: "Veterans' Day 2024", date: new Date(2024, 11, 10), companies: ["SpaceX"] },
+    { name: "Veterans' Day 2024", date: new Date(2024, 10, 10), companies: ["SpaceX"] },
     { name: "Thanksgiving Day 2024", date: new Date(2024, 10, 28), companies: ["SpaceX"] },
     { name: "Thanksgiving Friday 2024", date: new Date(2024, 10, 29), companies: ["SpaceX"] },
     { name: "Christmas Eve 2024", date: new Date(2024, 11, 24), companies: ["SpaceX"] },
