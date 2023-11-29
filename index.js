@@ -290,7 +290,7 @@ async function saveData(
 
 var pinnedBalanceDate = new Date();
 
-const version = 2.2;
+const version = 2.3;
 
 const MonthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 

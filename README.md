@@ -30,3 +30,4 @@ https://dashboard.stripe.com/dashboard
 [x] Pinned balance date is unimplemented
 [] Add company groups of holidays
 [] Check subscription is actually the $10 in prod
+[] Loading screen is still too long/ confusing
