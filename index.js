@@ -293,16 +293,19 @@ const MonthNames = ["January", "February", "March", "April", "May", "June", "Jul
 const holidayDates = [
     { name: "Thanksgiving Day 2023", date: new Date(2023, 10, 23), companies: ["SpaceX"] },
     { name: "Thanksgiving Friday 2023", date: new Date(2023, 10, 24), companies: ["SpaceX"] },
-    { name: "Christmas Day 2023", date: new Date(2023, 11, 25), companies: ["SpaceX"] },
+    { name: "Christmas Eve (12/22) 2023", date: new Date(2023, 11, 22), companies: ["Google"] },
+    { name: "Christmas Day 2023", date: new Date(2023, 11, 25), companies: ["SpaceX", "Google"] },
+    { name: "New Year's Eve (12/29) 2023", date: new Date(2023, 11, 29), companies: ["Google"] },
     { name: "New Year's Day 2024", date: new Date(2024, 0, 1), companies: ["SpaceX"] },
-    { name: "Martin Luther King Jr. Day 2024", date: new Date(2024, 0, 15), companies: ["SpaceX"] },
-    { name: "Presidents Day 2024", date: new Date(2024, 1, 19), companies: [] },
+    { name: "Martin Luther King Jr. Day 2024", date: new Date(2024, 0, 15), companies: ["SpaceX", "Google"] },
+    { name: "Presidents Day 2024", date: new Date(2024, 1, 19), companies: ["Google"] },
     { name: "Memorial Day 2024", date: new Date(2024, 4, 27), companies: ["SpaceX"] },
-    { name: "July 4th 2024", date: new Date(2024, 6, 4), companies: ["SpaceX"] },
-    { name: "July 5th 2024", date: new Date(2024, 6, 5), companies: ["SpaceX"] },
-    { name: "Labor Day 2024", date: new Date(2024, 8, 2), companies: ["SpaceX"] },
+    { name: "Juneteenth 2024", date: new Date(2024, 5, 19), companies: ["Google"] },
+    { name: "July 4th 2024", date: new Date(2024, 6, 4), companies: ["SpaceX", "Google"] },
+    { name: "July 5th 2024", date: new Date(2024, 6, 5), companies: ["SpaceX", "Google"] },
+    { name: "Labor Day 2024", date: new Date(2024, 8, 2), companies: ["SpaceX", "Google"] },
     { name: "Veterans' Day 2024", date: new Date(2024, 10, 10), companies: ["SpaceX"] },
-    { name: "Thanksgiving Day 2024", date: new Date(2024, 10, 28), companies: ["SpaceX"] },
+    { name: "Thanksgiving Day 2024", date: new Date(2024, 10, 28), companies: ["SpaceX", "Google"] },
     { name: "Thanksgiving Friday 2024", date: new Date(2024, 10, 29), companies: ["SpaceX"] },
     { name: "Christmas Eve 2024", date: new Date(2024, 11, 24), companies: ["SpaceX"] },
     { name: "Christmas Day 2024", date: new Date(2024, 11, 25), companies: ["SpaceX"] },
@@ -335,7 +338,7 @@ const holidayDates = [
 const supportedCompanies = [
     "SpaceX",
     // "Amazon",
-    // "Google",
+    "Google",
 ];
 
 const DayMs = 86400000
