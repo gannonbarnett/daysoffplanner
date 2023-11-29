@@ -353,9 +353,9 @@ function DaysBetween(first, second) {
 
 async function setCompany(company) {
     for (var i = 0; i < holidayDates.length; i++) {
-        removeHoliday(formatDate(holidayDates[i].date).split("T")[0]);
+        removeHoliday(formatDate(holidayDates[i].date));
         if (holidayDates[i].companies.indexOf(company) !== -1) {
-            addHoliday(formatDate(holidayDates[i].date).split("T")[0]);
+            addHoliday(formatDate(holidayDates[i].date));
         }
     }
     await reloadGraph();
@@ -397,8 +397,8 @@ function removeTimeoff(date) {
 }
 
 function addTimeoff(date) {
-    const dateEl = document.getElementById(date)
-    if (timeOffDays.indexOf(date) !== -1) {
+    const dateEl = document.getElementById(date);
+    if (timeOffDays.indexOf(date) == -1) {
         dateEl.classList.add("time-off")
         timeOffDays.push(date)
         return true
@@ -453,7 +453,7 @@ function updateCompanyCheckmarks() {
     for (var i = 0; i < supportedCompanies.length; i++) {
         for (var j = 0; j < holidayDates.length; j++) {
             if (holidayDates[j].companies.indexOf(supportedCompanies[i]) !== -1) {
-                if (holidays.indexOf(formatDate(holidayDates[j].date).split("T")[0]) == -1) {
+                if (holidays.indexOf(formatDate(holidayDates[j].date)) == -1) {
                     break
                 }
             }
@@ -633,7 +633,7 @@ async function start() {
         // var parent = document.getElementById("holidays-content-div-id");
         var parent = document.getElementById("holidays-specific-content-div-id");
         var div = document.createElement("div");
-        var iso = formatDate(holidayDates[i].date).split("T")[0];
+        var iso = formatDate(holidayDates[i].date);
         div.id = `holiday-${iso}`;
         div.className = "holidays-button-div";
         div.onclick = function () { toggleHoliday(this.id.replace("holiday-", "")) };
@@ -687,7 +687,7 @@ async function start() {
             var monthDayIso = new Date(monthDay.getTime()); monthDayIso.setDate(monthDay.getDate())
 
             var monthDayLi = document.createElement("li");
-            monthDayLi.id = formatDate(monthDayIso).split("T")[0]
+            monthDayLi.id = formatDate(monthDayIso);
             monthDayLi.className = "day";
             monthDayLi.onclick = function () { toggleDay(this.id) };
             monthDayLi.style = `grid-column-start: ${monthDay.getDay() + 1}`
