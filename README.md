@@ -28,6 +28,6 @@ https://dashboard.stripe.com/dashboard
 [x] Forgot password
 [x] Mobile support or mobile unsupported page
 [x] Pinned balance date is unimplemented
-[] Add company groups of holidays
-[] Check subscription is actually the $10 in prod
+[x] Add company groups of holidays
 [] Loading screen is still too long/ confusing
+[] Add links to external companies in subscribe page for SEO
